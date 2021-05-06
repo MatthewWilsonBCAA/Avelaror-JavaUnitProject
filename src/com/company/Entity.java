@@ -23,4 +23,10 @@ public class Entity {
     public int getLevel() {
         return vitality + strength + dexterity + power + will + agility;
     }
+    public void applyEffect(int effect, int value) {
+        //this will be where an entity reacts to an action
+    }
+    public void takeDamage(int damageType, int damage) {
+        //this will be called from applyEffect: used to apply damage
+    }
 }
