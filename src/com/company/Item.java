@@ -15,4 +15,20 @@ public class Item {
     public float willScaling;
     public float weight;
     public int value;
+    public Item(String n, String f, int e, int er, int sr, float ss, int dr, float ds, int pr, float ps, int wr, int ws, float w, int v) {
+        name = n;
+        flavorText = f;
+        effect = e;
+        effectRating = er;
+        strengthRequirement = sr;
+        strengthScaling = ss;
+        dexterityRequirement = dr;
+        dexterityScaling = ds;
+        powerRequirement = pr;
+        powerScaling = ps;
+        willRequirement = wr;
+        willScaling = ws;
+        weight = w;
+        value = v;
+    }
 }
