@@ -1,12 +1,13 @@
 package com.company;
+import java.sql.Array;
 import java.util.Scanner;
 import java.util.ArrayList;
 public class Main {
     public static Scanner input = new Scanner(System.in);
     static Item[] itemList = {
-            new Item("Short Sword", "A standard self-defense weapon", 1, 10, 5, 1, 10, 2, 0, 0, 0, 0, 2, 30),
-            new Item("Gold Sack", "A sack of 20 gold pieces", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20),
-            new Item("Large Gold Sack", "A sack of 50 gold pieces", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50),
+            new Item("Short_Sword", "A standard self-defense weapon", 1, 10, 5, 1, 10, 2, 0, 0, 0, 0, 2, 30),
+            new Item("Gold_Sack", "A sack of 20 gold pieces", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20),
+            new Item("Large_Gold_Sack", "A sack of 50 gold pieces", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50),
     };
     public static void main(String[] args) {
         //a series of parallel arrays
@@ -19,9 +20,9 @@ public class Main {
         String[] zc = {"west"};
         int[][] _paths = {r,x,r};
         String[][] _coms = {rc, xc, zc};
-        Item[] baseLoot = {itemList[0], itemList[1]};
-        Item[] goodLoot = {itemList[2], itemList[2]};
-        Item[][] lootList = {baseLoot, null, goodLoot};
+        ArrayList<Item> baseLoot = new ArrayList<Item>();
+        baseLoot.add(itemList[0]);
+        baseLoot.add(itemList[1]);
 	    Entity player = new Entity("player", 10, 10, 10, 10, 10, 10);
         ArrayList<Room> rooms = new ArrayList<Room>();
         int i;
@@ -30,7 +31,7 @@ public class Main {
                     _names[i],
                     _descriptions[i],
                     null,
-                    null,
+                    baseLoot,
                     _paths[i],
                     _coms[i]
             ));

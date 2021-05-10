@@ -1,7 +1,10 @@
 package com.company;
 
+import java.util.ArrayList;
+
 public class Entity {
     public String name;
+    public ArrayList<Item> inventory = new ArrayList<Item>();
     int hp;
     int maxHp;
     int vitality;

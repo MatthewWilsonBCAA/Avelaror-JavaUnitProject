@@ -17,7 +17,7 @@ public class State {
         for (i = 0; i < cur.roomCommands.length; i++) {
             paths = paths + "A path leads '" + cur.roomCommands[i] + "'\n";
         }
-        if (cur.items.size() > 0) {
+        if (cur.items != null) {
             for (i = 0; i < cur.items.size(); i++) {
                 items = items + "A '" + cur.items.get(i).name + "' is in the room\n";
             }
@@ -25,15 +25,29 @@ public class State {
 
         return "|" + cur.title + "|\n" + cur.baseDescription + "\n" + paths + "\n" + items;
     }
-    public boolean PickUpItem(String input) {
+    public String GetInventory() {
+        if (player.inventory.size() == 0) {
+            return "Your inventory is empty";
+        }
+        String items = "";
+        int i;
+        for (i = 0; i < player.inventory.size(); i++) {
+            items = items + (i+1) + ": " + player.inventory.get(i).name + "\n";
+        }
+        return items;
+    }
+    public String PickUpItem(String input) {
         Room cur = allRooms.get(roomID);
         int i;
         for (i = 0; i < cur.items.size(); i++) {
             if (cur.items.get(i).name.equals(input)) {
-                return true;
+                String n = cur.items.get(i).name;
+                player.inventory.add(cur.items.get(i));
+                cur.items.remove(i);
+                return n;
             }
         }
-        return false;
+        return "INVALID";
     }
     public String ReceiveInput(String input) {
         String[] args = input.split(" ", 0);
@@ -44,6 +58,18 @@ public class State {
                 roomID = temp;
                 toReturn = "You go into " + allRooms.get(roomID).title;
             }
+        }
+        if (args[0].equals("pickup") || args[0].equals("grab")) {
+            String temp = PickUpItem(args[1]);
+            if (!temp.equals("INVALID")) {
+                toReturn = "You picked it up";
+            }
+            else {
+                toReturn = "There is no item of that name in this room";
+            }
+        }
+        if ((args[0].equals("show") && args[1].equals("inventory")) || args[0].equals("inventory")) {
+            toReturn = GetInventory();
         }
         if (args[0].equals("exit")) {
             toReturn = "Goodbye!";
