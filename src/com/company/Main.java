@@ -42,6 +42,10 @@ public class Main {
             System.out.println(mainState.GetRoomDescription());
             j = input.nextLine();
             System.out.println(mainState.ReceiveInput(j));
+            System.out.println("(press enter to continue)");
+            j = input.nextLine();
+            System.out.print("\033[2J");
+            System.out.flush();
         }
     }
 }

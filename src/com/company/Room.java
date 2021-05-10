@@ -11,8 +11,29 @@ public class Room {
     public Room (String t, String b, ArrayList<Entity> e, ArrayList<Item> i, int[] r, String[] rc) {
         title = t;
         baseDescription = b;
-        entities = e;
-        items = i;
+        if (e != null) {
+            for (Entity reg : e) {
+                entities.add(reg);
+            }
+        }
+        for (Item rex : i) {
+            items.add(new Item(
+                    rex.name,
+                    rex.flavorText,
+                    rex.effect,
+                    rex.effectRating,
+                    rex.strengthRequirement,
+                    rex.strengthScaling,
+                    rex.dexterityRequirement,
+                    rex.dexterityScaling,
+                    rex.powerRequirement,
+                    rex.powerScaling,
+                    rex.willRequirement,
+                    rex.willScaling,
+                    rex.weight,
+                    rex.value)
+            );
+        }
         rooms = r;
         roomCommands = rc;
     }

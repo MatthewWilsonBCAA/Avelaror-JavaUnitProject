@@ -15,7 +15,7 @@ public class Item {
     public float willScaling;
     public float weight;
     public int value;
-    public Item(String n, String f, int e, int er, int sr, float ss, int dr, float ds, int pr, float ps, int wr, int ws, float w, int v) {
+    public Item(String n, String f, int e, int er, int sr, float ss, int dr, float ds, int pr, float ps, int wr, float ws, float w, int v) {
         name = n;
         flavorText = f;
         effect = e;

@@ -52,14 +52,14 @@ public class State {
     public String ReceiveInput(String input) {
         String[] args = input.split(" ", 0);
         String toReturn = "That was not a valid command!";
-        if (args[0].equals("go") || args[0].equals("enter")) {
+        if ((args[0].equals("go") || args[0].equals("enter")) && args.length > 1) {
             int temp = allRooms.get(roomID).CheckDirection(args[1]);
             if (temp != -1) {
                 roomID = temp;
                 toReturn = "You go into " + allRooms.get(roomID).title;
             }
         }
-        if (args[0].equals("pickup") || args[0].equals("grab")) {
+        if ((args[0].equals("pickup") || args[0].equals("grab")) && args.length > 1) {
             String temp = PickUpItem(args[1]);
             if (!temp.equals("INVALID")) {
                 toReturn = "You picked it up";
