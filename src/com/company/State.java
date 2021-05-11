@@ -84,7 +84,7 @@ public class State {
             Room cur = allRooms.get(roomID);
             for (i = 0; i < cur.entities.size(); i++) {
                 if (cur.entities.get(i).name.equals(argTwo)) {
-                    result = cur.entities.get(i).applyEffect(itemEffect, itemValue);
+                    result = cur.entities.get(i).applyEffect(itemEffect, itemValue, "You", cur.entities.get(i).name);
                     if (result.equals("DEFEAT")) {
                         cur.entities.remove(i);
                         return "You killed the target!";

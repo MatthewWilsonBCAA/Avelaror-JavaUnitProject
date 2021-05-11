@@ -27,15 +27,15 @@ public class Entity {
     public int getLevel() {
         return vitality + strength + dexterity + power + will + agility;
     }
-    public String applyEffect(int effect, int value) {
+    public String applyEffect(int effect, int value, String attacker, String target) {
         int dmg = value;
-        System.out.println("before: " + hp);
+        //System.out.println("before: " + hp);
         hp -= dmg;
-        System.out.println("after: " + hp);
+        //System.out.println("after: " + hp);
         if (hp <= 0) {
             return "DEFEAT";
         }
-        return "You dealt " + dmg + " damage";
+        return attacker + " dealt " + dmg + " damage to " + target;
     }
     public void takeDamage(int damageType, int damage) {
         //this will be called from applyEffect: used to apply damage
