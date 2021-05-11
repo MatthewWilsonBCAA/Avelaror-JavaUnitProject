@@ -13,6 +13,7 @@ public class Entity {
     int power;
     int will;
     int agility;
+    String openingLine;
     public Entity(String tName, int vit, int str, int dex, int pow, int wil, int agi) {
         name = tName;
         vitality = vit;
@@ -31,5 +32,11 @@ public class Entity {
     }
     public void takeDamage(int damageType, int damage) {
         //this will be called from applyEffect: used to apply damage
+    }
+    public void SetDefaultLine(String line) {
+        openingLine = line;
+    }
+    public String GetDefaultLine() {
+        return openingLine;
     }
 }

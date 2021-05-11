@@ -12,6 +12,7 @@ public class State {
     public String GetRoomDescription() {
         String paths = "";
         String items = "";
+        String ent = "";
         int i;
         Room cur = allRooms.get(roomID);
         for (i = 0; i < cur.roomCommands.length; i++) {
@@ -22,8 +23,13 @@ public class State {
                 items = items + "A '" + cur.items.get(i).name + "' is in the room\n";
             }
         }
+        if (cur.entities != null) {
+            for (i = 0; i < cur.entities.size(); i++) {
+                ent = ent + cur.entities.get(i).name + ": " + cur.entities.get(i).openingLine + "\n";
+            }
+        }
 
-        return "|" + cur.title + "|\n" + cur.baseDescription + "\n" + paths + "\n" + items;
+        return "|" + cur.title + "|\n" + cur.baseDescription + "\n" + paths + items + ent;
     }
     public String GetInventory() {
         if (player.inventory.size() == 0) {
@@ -49,6 +55,19 @@ public class State {
         }
         return "INVALID";
     }
+    public String DropItem(String input) {
+        int i;
+        for (i = 0; i < player.inventory.size(); i++) {
+            if (player.inventory.get(i).name.equals(input)) {
+                Room cur = allRooms.get(roomID);
+                cur.items.add(player.inventory.get(i));
+                String temp = player.inventory.get(i).name;
+                player.inventory.remove(i);
+                return temp;
+            }
+        }
+        return "INVALID";
+    }
     public String ReceiveInput(String input) {
         String[] args = input.split(" ", 0);
         String toReturn = "That was not a valid command!";
@@ -62,10 +81,19 @@ public class State {
         if ((args[0].equals("pickup") || args[0].equals("grab")) && args.length > 1) {
             String temp = PickUpItem(args[1]);
             if (!temp.equals("INVALID")) {
-                toReturn = "You picked it up";
+                toReturn = "You picked the '" + temp + "' up";
             }
             else {
                 toReturn = "There is no item of that name in this room";
+            }
+        }
+        if ((args[0].equals("drop") && args.length > 1)) {
+            String temp = DropItem(args[1]);
+            if (!temp.equals("INVALID")) {
+                toReturn = "You dropped the '" + temp + "' up";
+            }
+            else {
+                toReturn = "There is no item of that name in your inventory";
             }
         }
         if ((args[0].equals("show") && args[1].equals("inventory")) || args[0].equals("inventory")) {

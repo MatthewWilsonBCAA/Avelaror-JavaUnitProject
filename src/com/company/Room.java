@@ -13,7 +13,18 @@ public class Room {
         baseDescription = b;
         if (e != null) {
             for (Entity reg : e) {
-                entities.add(reg);
+                Entity temp = new Entity(
+                        reg.name,
+                        reg.vitality,
+                        reg.strength,
+                        reg.dexterity,
+                        reg.power,
+                        reg.will,
+                        reg.agility
+                );
+                temp.SetDefaultLine(reg.openingLine);
+                entities.add(temp);
+
             }
         }
         for (Item rex : i) {
