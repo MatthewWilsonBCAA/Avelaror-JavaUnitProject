@@ -37,9 +37,6 @@ public class Entity {
         }
         return attacker + " dealt " + dmg + " damage to " + target;
     }
-    public void takeDamage(int damageType, int damage) {
-        //this will be called from applyEffect: used to apply damage
-    }
     public void SetDefaultLine(String line) {
         openingLine = line;
     }
