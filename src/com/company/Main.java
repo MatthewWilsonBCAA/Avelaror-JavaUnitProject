@@ -1,6 +1,4 @@
 package com.company;
-import javax.crypto.EncryptedPrivateKeyInfo;
-import java.sql.Array;
 import java.util.Scanner;
 import java.util.ArrayList;
 public class Main {
@@ -11,10 +9,11 @@ public class Main {
             new Item("Large_Gold_Sack", "A sack of 50 gold pieces", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50),
     };
     static Entity[] entityList = {
-            new Entity("John Doe", 5, 5,5 ,5 ,5 ,5),
+            new Entity("John_Doe", 5, 5,5 ,5 ,5 ,5),
     };
     public static void main(String[] args) {
         entityList[0].SetDefaultLine("Hey there!");
+        entityList[0].SetHP(30);
         //a series of parallel arrays
         String[] _names = {"Dark Cave Room", "Lit Cave Room", "Exit Perimeter"};
         String[] _descriptions = {"You are in a dark room that lacks any notable features.", "You are in a lit room with a bloodied floor", "You stand at the fringe of the cave, overviewing a large valley"};

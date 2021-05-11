@@ -68,6 +68,33 @@ public class State {
         }
         return "INVALID";
     }
+    public String ApplyEffect(String argOne, String argTwo) {
+        Item selectEntity = null;
+        int itemEffect = 0;
+        int itemValue = 0;
+        int i;
+        String result;
+        for (i = 0; i < player.inventory.size(); i++) {
+            if (player.inventory.get(i).name.equals(argOne)) {
+                itemEffect = player.inventory.get(i).effect;
+                itemValue = player.inventory.get(i).effectRating;
+            }
+        }
+        if (itemEffect != 0) {
+            Room cur = allRooms.get(roomID);
+            for (i = 0; i < cur.entities.size(); i++) {
+                if (cur.entities.get(i).name.equals(argTwo)) {
+                    result = cur.entities.get(i).applyEffect(itemEffect, itemValue);
+                    if (result.equals("DEFEAT")) {
+                        cur.entities.remove(i);
+                        return "You killed the target!";
+                    }
+                    return result;
+                }
+            }
+        }
+        return "That was not a valid item and/or entity!";
+    }
     public String ReceiveInput(String input) {
         String[] args = input.split(" ", 0);
         String toReturn = "That was not a valid command!";
@@ -98,6 +125,9 @@ public class State {
         }
         if ((args[0].equals("show") && args[1].equals("inventory")) || args[0].equals("inventory")) {
             toReturn = GetInventory();
+        }
+        if ((args[0].equals("use") || args[0].equals("activate")) && args[2].equals("on") && args.length == 4) {
+            toReturn = ApplyEffect(args[1],args[3]);
         }
         if (args[0].equals("exit")) {
             toReturn = "Goodbye!";

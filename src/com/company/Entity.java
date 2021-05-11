@@ -27,8 +27,15 @@ public class Entity {
     public int getLevel() {
         return vitality + strength + dexterity + power + will + agility;
     }
-    public void applyEffect(int effect, int value) {
-        //this will be where an entity reacts to an action
+    public String applyEffect(int effect, int value) {
+        int dmg = value;
+        System.out.println("before: " + hp);
+        hp -= dmg;
+        System.out.println("after: " + hp);
+        if (hp <= 0) {
+            return "DEFEAT";
+        }
+        return "You dealt " + dmg + " damage";
     }
     public void takeDamage(int damageType, int damage) {
         //this will be called from applyEffect: used to apply damage
@@ -38,5 +45,11 @@ public class Entity {
     }
     public String GetDefaultLine() {
         return openingLine;
+    }
+    public void SetHP(int h) {
+        hp = h;
+        if (hp > maxHp) {
+            hp = maxHp;
+        }
     }
 }

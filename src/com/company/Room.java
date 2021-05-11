@@ -23,6 +23,7 @@ public class Room {
                         reg.agility
                 );
                 temp.SetDefaultLine(reg.openingLine);
+                temp.SetHP(reg.hp);
                 entities.add(temp);
 
             }
