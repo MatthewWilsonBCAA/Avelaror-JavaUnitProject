@@ -25,7 +25,7 @@ public class State {
         }
         if (cur.entities != null) {
             for (i = 0; i < cur.entities.size(); i++) {
-                ent = ent + cur.entities.get(i).name + ": " + cur.entities.get(i).openingLine + "\n";
+                ent = ent + cur.entities.get(i).name + ": " + cur.entities.get(i).GetDefaultLine() + "\n";
             }
         }
 
@@ -68,16 +68,43 @@ public class State {
         }
         return "INVALID";
     }
+    public int GetStatBonus(int str, int sReq, float sSc, int dex, int dReq, float dSc, int pow, int pReq, float pSc, int wil, int wReq, float wSc) {
+        int strBonus = 0;
+        int dexBonus = 0;
+        int powBonus = 0;
+        int wilBonus = 0;
+        strBonus = (int) ( (str - sReq) * sSc);
+        dexBonus = (int) ( (str - dReq ) * dSc);
+        powBonus = (int) ( (str - pReq) * pSc);
+        wilBonus = (int) ( (str - wReq) * wSc);
+        return strBonus + dexBonus + powBonus + wilBonus;
+    }
     public String ApplyEffect(String argOne, String argTwo) {
-        Item selectEntity = null;
         int itemEffect = 0;
         int itemValue = 0;
+        int sReq;
+        float sSc;
+        int dReq;
+        float dSc;
+        int pReq;
+        float pSc;
+        int wReq;
+        float wSc;
         int i;
         String result;
         for (i = 0; i < player.inventory.size(); i++) {
             if (player.inventory.get(i).name.equals(argOne)) {
                 itemEffect = player.inventory.get(i).effect;
                 itemValue = player.inventory.get(i).effectRating;
+                sReq = player.inventory.get(i).strengthRequirement;
+                sSc = player.inventory.get(i).strengthScaling;
+                dReq = player.inventory.get(i).dexterityRequirement;
+                dSc = player.inventory.get(i).dexterityScaling;
+                pReq = player.inventory.get(i).powerRequirement;
+                pSc = player.inventory.get(i).powerScaling;
+                wReq = player.inventory.get(i).willRequirement;
+                wSc = player.inventory.get(i).willScaling;
+                itemValue += GetStatBonus(player.strength, sReq, sSc, player.dexterity, dReq, dSc, player.power, pReq, pSc, player.will, wReq, wSc);
             }
         }
         if (itemEffect != 0) {
@@ -95,6 +122,16 @@ public class State {
         }
         return "That was not a valid item and/or entity!";
     }
+    String enemyCheck() {
+        String toSend = "";
+        Room cur = allRooms.get(roomID);
+        for (Entity ent : cur.entities) {
+            if (ent.checkAggro()) {
+                toSend += player.applyEffect(ent.primaryAttack, ent.primaryValue, ent.name, "you") + "\n";
+            }
+        }
+        return toSend;
+    }
     public String ReceiveInput(String input) {
         String[] args = input.split(" ", 0);
         String toReturn = "That was not a valid command!";
@@ -102,25 +139,25 @@ public class State {
             int temp = allRooms.get(roomID).CheckDirection(args[1]);
             if (temp != -1) {
                 roomID = temp;
-                toReturn = "You go into " + allRooms.get(roomID).title;
+                toReturn = "You go into " + allRooms.get(roomID).title + "\n";
             }
         }
         if ((args[0].equals("pickup") || args[0].equals("grab")) && args.length > 1) {
             String temp = PickUpItem(args[1]);
             if (!temp.equals("INVALID")) {
-                toReturn = "You picked the '" + temp + "' up";
+                toReturn = "You picked the '" + temp + "' up" + "\n";
             }
             else {
-                toReturn = "There is no item of that name in this room";
+                toReturn = "There is no item of that name in this room" + "\n";
             }
         }
         if ((args[0].equals("drop") && args.length > 1)) {
             String temp = DropItem(args[1]);
             if (!temp.equals("INVALID")) {
-                toReturn = "You dropped the '" + temp + "' up";
+                toReturn = "You dropped the '" + temp + "' up" + "\n";
             }
             else {
-                toReturn = "There is no item of that name in your inventory";
+                toReturn = "There is no item of that name in your inventory" + "\n";
             }
         }
         if ((args[0].equals("show") && args[1].equals("inventory")) || args[0].equals("inventory")) {
@@ -132,6 +169,12 @@ public class State {
         if (args[0].equals("exit")) {
             toReturn = "Goodbye!";
         }
+        String temp = enemyCheck();
+        if (temp.contains("DEFEAT")) {
+            return "You died...";
+        }
+        toReturn += temp;
+
         return toReturn;
     }
 }

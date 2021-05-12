@@ -9,10 +9,11 @@ public class Main {
             new Item("Large_Gold_Sack", "A sack of 50 gold pieces", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50),
     };
     static Entity[] entityList = {
-            new Entity("John_Doe", 5, 5,5 ,5 ,5 ,5),
+            new Entity("John_Doe", 5, 5,5 ,5 ,5 ,5, 1, 5),
     };
     public static void main(String[] args) {
         entityList[0].SetDefaultLine("Hey there!");
+        entityList[0].SetAggroLine("I'll kill you!");
         entityList[0].SetHP(30);
         //a series of parallel arrays
         String[] _names = {"Dark Cave Room", "Lit Cave Room", "Exit Perimeter"};
@@ -40,7 +41,8 @@ public class Main {
         johnOnly.add(entityList[0]);
         entityTables.add(johnOnly);
         entityTables.add(new ArrayList<Entity>());
-	    Entity player = new Entity("player", 10, 10, 10, 10, 10, 10);
+	    Entity player = new Entity("player", 10, 10, 10, 10, 10, 10, 0, 0);
+	    player.SetHP(player.maxHp);
         ArrayList<Room> rooms = new ArrayList<Room>();
         int i;
         for (i = 0; i < _names.length; i++) {
@@ -55,12 +57,19 @@ public class Main {
         }
 	    State mainState = new State(player, rooms, 0);
         String j = "bean";
+        String toPrint = "";
         while (!j.equals("exit")) {
             System.out.println(mainState.GetRoomDescription());
             j = input.nextLine();
-            System.out.println(mainState.ReceiveInput(j));
+
+            toPrint = mainState.ReceiveInput(j);
+
+            System.out.println(toPrint);
             System.out.println("(press enter to continue)");
             j = input.nextLine();
+            if (toPrint.equals("You died...")) {
+                break;
+            }
         }
     }
 }

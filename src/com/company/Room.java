@@ -20,9 +20,12 @@ public class Room {
                         reg.dexterity,
                         reg.power,
                         reg.will,
-                        reg.agility
+                        reg.agility,
+                        reg.primaryAttack,
+                        reg.primaryValue
                 );
                 temp.SetDefaultLine(reg.openingLine);
+                temp.SetAggroLine(reg.aggroLine);
                 temp.SetHP(reg.hp);
                 entities.add(temp);
 
