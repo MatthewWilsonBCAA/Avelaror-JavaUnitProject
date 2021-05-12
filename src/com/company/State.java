@@ -167,7 +167,7 @@ public class State {
             toReturn = ApplyEffect(args[1],args[3]);
         }
         if (args[0].equals("exit")) {
-            toReturn = "Goodbye!";
+            toReturn = "Are you sure? (Type 'exit' again)";
         }
         String temp = enemyCheck();
         if (temp.contains("DEFEAT")) {
