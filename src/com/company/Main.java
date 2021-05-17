@@ -5,11 +5,6 @@ import java.util.Arrays;
 public class Main {
     public static Scanner input = new Scanner(System.in);
     public static ArrayList<Room> rooms = new ArrayList<Room>();
-    static Item[] itemList = {
-            new Item("Short_Sword", "A standard self-defense weapon", 1, 10, 5, 1, 10, 2, 0, 0, 0, 0, 2, 30),
-            new Item("Gold_Sack", "A sack of 20 gold pieces", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20),
-            new Item("Large_Gold_Sack", "A sack of 50 gold pieces", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50),
-    };
     static Entity[] entityList = {
             new Entity("John_Doe", 5, 5,5 ,5 ,5 ,5, 1, 5),
     };

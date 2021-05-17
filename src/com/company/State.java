@@ -20,12 +20,12 @@ public class State {
         }
         if (cur.items != null) {
             for (i = 0; i < cur.items.size(); i++) {
-                items = items + "A '" + cur.items.get(i).name + "' is in the room\n";
+                items = items + "A '" + cur.items.get(i).getName() + "' is in the room\n";
             }
         }
         if (cur.entities != null) {
             for (i = 0; i < cur.entities.size(); i++) {
-                ent = ent + cur.entities.get(i).name + ": " + cur.entities.get(i).GetDefaultLine() + "\n";
+                ent = ent + cur.entities.get(i).getName() + ": " + cur.entities.get(i).GetDefaultLine() + "\n";
             }
         }
 
@@ -38,7 +38,7 @@ public class State {
         String items = "";
         int i;
         for (i = 0; i < player.inventory.size(); i++) {
-            items = items + (i+1) + ": " + player.inventory.get(i).name + "\n";
+            items = items + (i+1) + ": " + player.inventory.get(i).getName() + "\n";
         }
         return items;
     }
@@ -46,8 +46,8 @@ public class State {
         Room cur = allRooms.get(roomID);
         int i;
         for (i = 0; i < cur.items.size(); i++) {
-            if (cur.items.get(i).name.equals(input)) {
-                String n = cur.items.get(i).name;
+            if (cur.items.get(i).getName().equals(input)) {
+                String n = cur.items.get(i).getName();
                 player.inventory.add(cur.items.get(i));
                 cur.items.remove(i);
                 return n;
@@ -58,10 +58,10 @@ public class State {
     public String DropItem(String input) {
         int i;
         for (i = 0; i < player.inventory.size(); i++) {
-            if (player.inventory.get(i).name.equals(input)) {
+            if (player.inventory.get(i).getName().equals(input)) {
                 Room cur = allRooms.get(roomID);
                 cur.items.add(player.inventory.get(i));
-                String temp = player.inventory.get(i).name;
+                String temp = player.inventory.get(i).getName();
                 player.inventory.remove(i);
                 return temp;
             }
@@ -93,7 +93,7 @@ public class State {
         int i;
         String result;
         for (i = 0; i < player.inventory.size(); i++) {
-            if (player.inventory.get(i).name.equals(argOne)) {
+            if (player.inventory.get(i).getName().equals(argOne)) {
                 itemEffect = player.inventory.get(i).effect;
                 itemValue = player.inventory.get(i).effectRating;
                 sReq = player.inventory.get(i).strengthRequirement;
@@ -110,8 +110,8 @@ public class State {
         if (itemEffect != 0) {
             Room cur = allRooms.get(roomID);
             for (i = 0; i < cur.entities.size(); i++) {
-                if (cur.entities.get(i).name.equals(argTwo)) {
-                    result = cur.entities.get(i).applyEffect(itemEffect, itemValue, "You", cur.entities.get(i).name);
+                if (cur.entities.get(i).getName().equals(argTwo)) {
+                    result = cur.entities.get(i).applyEffect(itemEffect, itemValue, "You", cur.entities.get(i).getName());
                     if (result.equals("DEFEAT")) {
                         cur.entities.remove(i);
                         return "You killed the target!";
@@ -127,7 +127,7 @@ public class State {
         Room cur = allRooms.get(roomID);
         for (Entity ent : cur.entities) {
             if (ent.checkAggro()) {
-                toSend += player.applyEffect(ent.primaryAttack, ent.primaryValue, ent.name, "you") + "\n";
+                toSend += player.applyEffect(ent.primaryAttack, ent.primaryValue, ent.getName(), "you") + "\n";
             }
         }
         return toSend;

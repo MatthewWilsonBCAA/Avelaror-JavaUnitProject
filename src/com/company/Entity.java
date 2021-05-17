@@ -35,6 +35,127 @@ public class Entity {
     public int getLevel() {
         return vitality + strength + dexterity + power + will + agility;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ArrayList<Item> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(ArrayList<Item> inventory) {
+        this.inventory = inventory;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
+    }
+
+    public int getVitality() {
+        return vitality;
+    }
+
+    public void setVitality(int vitality) {
+        this.vitality = vitality;
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
+    public int getDexterity() {
+        return dexterity;
+    }
+
+    public void setDexterity(int dexterity) {
+        this.dexterity = dexterity;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
+    }
+
+    public int getWill() {
+        return will;
+    }
+
+    public void setWill(int will) {
+        this.will = will;
+    }
+
+    public int getAgility() {
+        return agility;
+    }
+
+    public void setAgility(int agility) {
+        this.agility = agility;
+    }
+
+    public String getOpeningLine() {
+        return openingLine;
+    }
+
+    public void setOpeningLine(String openingLine) {
+        this.openingLine = openingLine;
+    }
+
+    public String getAggroLine() {
+        return aggroLine;
+    }
+
+    public void setAggroLine(String aggroLine) {
+        this.aggroLine = aggroLine;
+    }
+
+    public boolean isHostile() {
+        return isHostile;
+    }
+
+    public void setHostile(boolean hostile) {
+        isHostile = hostile;
+    }
+
+    public int getPrimaryAttack() {
+        return primaryAttack;
+    }
+
+    public void setPrimaryAttack(int primaryAttack) {
+        this.primaryAttack = primaryAttack;
+    }
+
+    public int getPrimaryValue() {
+        return primaryValue;
+    }
+
+    public void setPrimaryValue(int primaryValue) {
+        this.primaryValue = primaryValue;
+    }
+
     public String applyEffect(int effect, int value, String attacker, String target) {
         if (effect > 0 && effect < 4) {
             isHostile = true;

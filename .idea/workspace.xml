@@ -3,8 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="925ee688-6a06-4fa7-ba75-687fb77d3fd6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/database.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Entity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/company/InitializeDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/InitializeDatabase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/State.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
