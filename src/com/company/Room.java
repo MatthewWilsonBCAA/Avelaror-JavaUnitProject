@@ -1,6 +1,6 @@
 package com.company;
 import java.util.ArrayList;
-public class Room {
+public class Room implements java.io.Serializable {
     public String title;
     public String baseDescription;
     public ArrayList<Entity> entities = new ArrayList<Entity>();
@@ -8,9 +8,19 @@ public class Room {
     //these are going to be parallel lists
     int[] rooms;
     String[] roomCommands;
-    public Room (String t, String b, ArrayList<Entity> e, ArrayList<Item> i, int[] r, String[] rc) {
+    public void SetTitle (String t) {
         title = t;
-        baseDescription = b;
+    }
+    public String GetTitle() {
+        return title;
+    }
+    public void SetBaseDescription(String d) {
+        baseDescription = d;
+    }
+    public String GetBaseDescription() {
+        return baseDescription;
+    }
+    public void SetEntities(ArrayList<Entity> e) {
         if (e != null) {
             for (Entity reg : e) {
                 Entity temp = new Entity();
@@ -31,6 +41,8 @@ public class Room {
 
             }
         }
+    }
+    public void SetItems(ArrayList<Item> i) {
         for (Item rex : i) {
             Item temp = new Item();
             temp.setName(rex.getName());
@@ -40,7 +52,7 @@ public class Room {
             temp.setStrengthRequirement(rex.getStrengthRequirement());
             temp.setStrengthScaling(rex.getStrengthScaling());
             temp.setDexterityRequirement(rex.getDexterityRequirement());
-            temp.setStrengthScaling(rex.getDexterityScaling());
+            temp.setDexterityScaling(rex.getDexterityScaling());
             temp.setPowerRequirement(rex.getPowerRequirement());
             temp.setPowerScaling(rex.getPowerScaling());
             temp.setWillRequirement(rex.getWillRequirement());
@@ -49,8 +61,32 @@ public class Room {
             temp.setValue(rex.getValue());
             items.add(temp);
         }
-        rooms = r;
-        roomCommands = rc;
+    }
+    public ArrayList<Entity> GetEntities() {
+        return entities;
+    }
+    public ArrayList<Item> GetItems() {
+        return items;
+    }
+
+    public int[] GetRooms() {
+        return rooms;
+    }
+
+    public void SetRooms(int[] rooms) {
+        this.rooms = rooms;
+    }
+
+    public String[] GetRoomCommands() {
+        return roomCommands;
+    }
+
+    public void SetRoomCommands(String[] roomCommands) {
+        this.roomCommands = roomCommands;
+    }
+
+    public Room () {
+
     }
     public int CheckDirection(String in) {
         int i;

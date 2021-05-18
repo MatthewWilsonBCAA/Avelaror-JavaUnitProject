@@ -2,7 +2,7 @@ package com.company;
 
 import java.util.ArrayList;
 
-public class Entity {
+public class Entity implements java.io.Serializable  {
     String name;
     ArrayList<Item> inventory = new ArrayList<Item>();
 

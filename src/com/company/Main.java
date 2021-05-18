@@ -9,9 +9,20 @@ public class Main {
     public static Scanner input = new Scanner(System.in);
     public static ArrayList<Room> rooms = new ArrayList<Room>();
     static Entity[] entityList = {
-            new Entity("John_Doe", 5, 5,5 ,5 ,5 ,5, 1, 5),
+            //new Entity("John_Doe", 5, 5,5 ,5 ,5 ,5, 1, 5),
+            new Entity(),
     };
     static void EntityInitialization() {
+        entityList[0].setName("John_Doe");
+        entityList[0].setVitality(5);
+        entityList[0].setStrength(5);
+        entityList[0].setDexterity(5);
+        entityList[0].setPower(5);
+        entityList[0].setWill(5);
+        entityList[0].setAgility(5);
+        entityList[0].SetPrimaryAttack(1);
+        entityList[0].SetPrimaryValue(5);
+        entityList[0].setHp(entityList[0].getMaxHp());
         entityList[0].SetDefaultLine("Hey there!");
         entityList[0].SetAggroLine("I'll kill you!");
         entityList[0].SetHP(30);
@@ -34,21 +45,28 @@ public class Main {
 
         int i;
         for (i = 0; i < _names.length; i++) {
-            rooms.add(new Room(
-                    _names[i],
-                    _descriptions[i],
-                    entityTables.get(i),
-                    lootTables.get(i),
-                    _paths[i],
-                    _coms[i]
-            ));
+            Room temp = new Room();
+            temp.SetTitle(_names[i]);
+            temp.SetBaseDescription(_descriptions[i]);
+            temp.SetItems(lootTables.get(i));
+            temp.SetEntities(entityTables.get(i));
+            temp.SetRooms(_paths[i]);
+            temp.SetRoomCommands(_coms[i]);
+            rooms.add(temp);
         }
     }
     static ArrayList<Item> itemList;
 
 
     public static void main(String[] args) throws SQLException {
-        Entity player = new Entity("player", 10, 10, 10, 10, 10, 10, 0, 0);
+        Entity player = new Entity();
+        player.setName("player");
+        player.setVitality(10);
+        player.setStrength(10);
+        player.setDexterity(10);
+        player.setPower(10);
+        player.setWill(10);
+        player.setAgility(10);
         player.SetHP(player.maxHp);
         State mainState = new State(player, rooms, 0);
 
