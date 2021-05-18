@@ -3,8 +3,8 @@ package com.company;
 import java.util.ArrayList;
 
 public class Entity {
-    public String name;
-    public ArrayList<Item> inventory = new ArrayList<Item>();
+    String name;
+    ArrayList<Item> inventory = new ArrayList<Item>();
 
     int hp;
     int maxHp;
@@ -18,19 +18,22 @@ public class Entity {
     String openingLine;
     String aggroLine;
     boolean isHostile = false;
-    public int primaryAttack;
-    public int primaryValue;
-    public Entity(String tName, int vit, int str, int dex, int pow, int wil, int agi, int pri, int val) {
-        name = tName;
-        vitality = vit;
-        strength = str;
-        dexterity = dex;
-        power = pow;
-        will = wil;
-        agility = agi;
-        maxHp = vitality * 10;
-        primaryAttack = pri;
-        primaryValue = val;
+    int primaryAttack;
+    int primaryValue;
+    public void SetPrimaryAttack(int p) {
+        primaryAttack = p;
+    }
+    public int GetPrimaryAttack() {
+        return primaryAttack;
+    }
+    public void SetPrimaryValue(int p) {
+        primaryValue = p;
+    }
+    public int GetPrimaryValue() {
+        return primaryValue;
+    }
+    public Entity() {
+
     }
     public int getLevel() {
         return vitality + strength + dexterity + power + will + agility;
@@ -74,6 +77,7 @@ public class Entity {
 
     public void setVitality(int vitality) {
         this.vitality = vitality;
+        this.maxHp = vitality * 10;
     }
 
     public int getStrength() {

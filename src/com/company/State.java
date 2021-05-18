@@ -1,4 +1,7 @@
 package com.company;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 public class State {
     Entity player;
@@ -32,7 +35,7 @@ public class State {
         return "|" + cur.title + "|\n" + cur.baseDescription + "\n" + paths + items + ent;
     }
     public String GetInventory() {
-        if (player.inventory.size() == 0) {
+        if (player.getInventory().size() == 0) {
             return "Your inventory is empty";
         }
         String items = "";
@@ -127,11 +130,12 @@ public class State {
         Room cur = allRooms.get(roomID);
         for (Entity ent : cur.entities) {
             if (ent.checkAggro()) {
-                toSend += player.applyEffect(ent.primaryAttack, ent.primaryValue, ent.getName(), "you") + "\n";
+                toSend += player.applyEffect(ent.GetPrimaryAttack(), ent.GetPrimaryValue(), ent.getName(), "you") + "\n";
             }
         }
         return toSend;
     }
+
     public String ReceiveInput(String input) {
         String[] args = input.split(" ", 0);
         String toReturn = "That was not a valid command!";
@@ -176,5 +180,45 @@ public class State {
         toReturn += temp;
 
         return toReturn;
+    }
+    //--------------+
+    //DATABASE STUFF|
+    //--------------+
+    private static Connection connect() {
+        String dburl = "jdbc:sqlite:itemlist.db";
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(dburl);
+            System.out.println("Connection to SQLite has been established.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
+        return conn;
+    }
+    public static ArrayList<Item> getItems() throws SQLException {
+        Connection conn = connect();
+        var items = new ArrayList<Item>();
+        var statement = conn.createStatement();
+        var results = statement.executeQuery("SELECT * FROM items");
+        while (results.next()) {
+            Item temp = new Item();
+            temp.setName(results.getString("name"));
+            temp.setFlavorText(results.getString("flavor_text"));
+            temp.setEffect(results.getInt("effect"));
+            temp.setEffectRating(results.getInt("effect_rating"));
+            temp.setStrengthRequirement(results.getInt("strength_req"));
+            temp.setStrengthScaling(results.getFloat("strength_scale"));
+            temp.setDexterityRequirement(results.getInt("dexterity_req"));
+            temp.setStrengthScaling(results.getFloat("dexterity_scale"));
+            temp.setPowerRequirement(results.getInt("power_req"));
+            temp.setPowerScaling(results.getFloat("power_scale"));
+            temp.setWillRequirement(results.getInt("will_req"));
+            temp.setWillScaling(results.getFloat("will_scale"));
+            temp.setWeight(results.getFloat("weight"));
+            temp.setValue(results.getInt("value"));
+            items.add(temp);
+        }
+        return items;
     }
 }

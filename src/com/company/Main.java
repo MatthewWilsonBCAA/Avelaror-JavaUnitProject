@@ -1,4 +1,7 @@
 package com.company;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,8 +23,8 @@ public class Main {
         String[][] _coms = {new String[]{"north"}, new String[]{"south", "east"}, new String[]{"west"}};
 
         // item table
-        ArrayList<Item> baseLoot = new ArrayList<Item>(Arrays.asList(itemList[0], itemList[1]));
-        ArrayList<Item> vLoot = new ArrayList<Item>(Arrays.asList(itemList[2], itemList[2]));
+        ArrayList<Item> baseLoot = new ArrayList<Item>(Arrays.asList(itemList.get(0), itemList.get(1)));
+        ArrayList<Item> vLoot = new ArrayList<Item>(Arrays.asList(itemList.get(2), itemList.get(2)));
         ArrayList<ArrayList<Item>> lootTables = new ArrayList<ArrayList<Item>>(Arrays.asList(baseLoot, vLoot, new ArrayList<Item>()));
 
         // entity table
@@ -41,12 +44,21 @@ public class Main {
             ));
         }
     }
-    public static void main(String[] args) {
-        EntityInitialization();
-        RoomInitialization();
+    static ArrayList<Item> itemList;
+
+
+    public static void main(String[] args) throws SQLException {
         Entity player = new Entity("player", 10, 10, 10, 10, 10, 10, 0, 0);
         player.SetHP(player.maxHp);
-	    State mainState = new State(player, rooms, 0);
+        State mainState = new State(player, rooms, 0);
+
+        itemList = mainState.getItems();
+        EntityInitialization();
+        RoomInitialization();
+
+
+
+
         String j = "bean";
         String toPrint = "";
         while (!j.equals("exit")) {
