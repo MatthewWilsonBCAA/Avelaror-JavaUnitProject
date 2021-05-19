@@ -12,53 +12,130 @@ public class InitializeDatabase {
     static Scanner stdin = new Scanner(System.in);
     static String dburl = "jdbc:sqlite:itemlist.db";
     static Connection conn;
-    static String[] names = {
-            "Short_Sword",
-            "Gold_Sack",
-            "Large_Gold_Sack"
-    };
-    static String[] flavorTexts = {
-            "A standard self-defense weapon",
-            "A sack of 20 gold pieces",
-            "A sack of 50 gold pieces"
-    };
-    static int[] effects = {
-            1, 0, 0
-    };
-    static int[] effectRatings = {
-            10, 0, 0
-    };
-    static int[] strengthReqs = {
-            5, 0, 0
-    };
-    static float[] strengthScales = {
-            1.0f, 0.0f, 0.0f
-    };
-    static int[] dexterityReqs = {
-            10, 0, 0
-    };
-    static float[] dexterityScales = {
-            2.0f, 0.0f, 0.0f
-    };
-    static int[] powerReqs = {
-            0, 0, 0
-    };
-    static float[] powerScales = {
-            0.0f, 0.0f, 0.0f
-    };
-    static int[] willReqs = {
-            0, 0, 0
-    };
-    static float[] willScales = {
-            0.0f, 0.0f, 0.0f
-    };
-    static float[] weights = {
-            2.0f, 0.0f, 0.0f
-    };
-    static int[] values = {
-            30, 20, 50
-    };
+    public static void setEntities() throws SQLException {
+        String[] names = {
+            "Rosa", "Mark"
+        };
+        int[] hps = {
+                20, 30
+        };
+        int[] vits = {
+                2, 3
+        };
+        int[] strs = {
+                1, 1
+        };
+        int[] dexs = {
+                1, 1
+        };
+        int[] pows = {
+                1, 1
+        };
+        int[] wils = {
+                1, 1
+        };
+        int[] agls = {
+                1, 1
+        };
+        String[] defaults = {
+                "Hello there, traveler.", "Hey there, wanderer."
+        };
+        String[] agros = {
+                "You idiot! I'll kill you!", "I will slit your throat!"
+        };
+        int[] pas = {
+                1, 1
+        };
+        int[] pvs = {
+                5, 10
+        };
+        var statement = conn.createStatement();
+        statement.execute("DROP TABLE IF EXISTS items;");
+        System.out.println("STEP 2");
+        var st = conn.createStatement();
+        st.execute("CREATE TABLE items (" +
+                "name TEXT," +
+                "hp INTEGER," +
+                "vitality INTEGER," +
+                "strength INTEGER," +
+                "dexterity INTEGER," +
+                "power INTEGER," +
+                "will INTEGER," +
+                "agility INTEGER," +
+                "default_line TEXT," +
+                "agro_line TEXT," +
+                "primary_attack INTEGER," +
+                "primary_value INTEGER" +
+                ");");
+        int i;
+
+        System.out.println("STEP 3");
+        for (i = 0; i < names.length; i++) {
+            String query = " INSERT INTO items"
+                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1, names[i]);
+            preparedStmt.setInt(2, hps[i]);
+            preparedStmt.setInt(3, vits[i]);
+            preparedStmt.setInt(4, strs[i]);
+            preparedStmt.setInt(5, dexs[i]);
+            preparedStmt.setInt(6, pows[i]);
+            preparedStmt.setInt(7, wils[i]);
+            preparedStmt.setInt(8, agls[i]);
+            preparedStmt.setString(9, defaults[i]);
+            preparedStmt.setString(10, agros[i]);
+            preparedStmt.setInt(11, pas[i]);
+            preparedStmt.setInt(12, pvs[i]);
+            preparedStmt.execute();
+        }
+    }
     public static void setItems() throws SQLException {
+        String[] names = {
+                "Short_Sword",
+                "Gold_Sack",
+                "Large_Gold_Sack"
+        };
+        String[] flavorTexts = {
+                "A standard self-defense weapon",
+                "A sack of 20 gold pieces",
+                "A sack of 50 gold pieces"
+        };
+        int[] effects = {
+                1, 0, 0
+        };
+        int[] effectRatings = {
+                10, 0, 0
+        };
+        int[] strengthReqs = {
+                5, 0, 0
+        };
+        float[] strengthScales = {
+                1.0f, 0.0f, 0.0f
+        };
+        int[] dexterityReqs = {
+                10, 0, 0
+        };
+        float[] dexterityScales = {
+                2.0f, 0.0f, 0.0f
+        };
+        int[] powerReqs = {
+                0, 0, 0
+        };
+        float[] powerScales = {
+                0.0f, 0.0f, 0.0f
+        };
+        int[] willReqs = {
+                0, 0, 0
+        };
+        float[] willScales = {
+                0.0f, 0.0f, 0.0f
+        };
+        float[] weights = {
+                2.0f, 0.0f, 0.0f
+        };
+        int[] values = {
+                30, 20, 50
+        };
         System.out.println("STEP 1");
         var statement = conn.createStatement();
         statement.execute("DROP TABLE IF EXISTS items;");
