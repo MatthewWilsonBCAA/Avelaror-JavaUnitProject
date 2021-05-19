@@ -181,7 +181,7 @@ public class InitializeDatabase {
     static ArrayList<Entity> getEntities() throws SQLException {
         ArrayList<Entity> ents = new ArrayList<Entity>();
         var statement = conn.createStatement();
-        var results = statement.executeQuery("SELECT * FROM items");
+        var results = statement.executeQuery("SELECT * FROM entities");
         while (results.next()) {
             Entity temp = new Entity();
             temp.setName(results.getString("name"));
@@ -190,7 +190,12 @@ public class InitializeDatabase {
             temp.setDexterity(results.getInt("dexterity"));
             temp.setPower(results.getInt("power"));
             temp.setWill(results.getInt("will"));
-
+            temp.setAgility(results.getInt("agility"));
+            temp.SetDefaultLine(results.getString("default_line"));
+            temp.SetAggroLine(results.getString("agro_line"));
+            temp.setPrimaryAttack(results.getInt("primary_attack"));
+            temp.setPrimaryValue(results.getInt("primary_value"));
+            ents.add(temp);
         }
         return ents;
     }
@@ -201,10 +206,15 @@ public class InitializeDatabase {
             String in = stdin.nextLine();
             if (in.equals("yes")) {
                 setItems();
+                setEntities();
             }
             itemList = getItems();
+            var entitylist = getEntities();
             for (Item i : itemList) {
-                System.out.println(i.name);
+                System.out.println(i.getName());
+            }
+            for (Entity i: entitylist) {
+                System.out.println(i.getName());
             }
 
             conn.close();

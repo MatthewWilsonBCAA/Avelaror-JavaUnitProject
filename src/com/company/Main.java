@@ -1,4 +1,5 @@
 package com.company;
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -8,25 +9,7 @@ import java.util.Arrays;
 public class Main {
     public static Scanner input = new Scanner(System.in);
     public static ArrayList<Room> rooms = new ArrayList<Room>();
-    static Entity[] entityList = {
-            //new Entity("John_Doe", 5, 5,5 ,5 ,5 ,5, 1, 5),
-            new Entity(),
-    };
-    static void EntityInitialization() {
-        entityList[0].setName("John_Doe");
-        entityList[0].setVitality(5);
-        entityList[0].setStrength(5);
-        entityList[0].setDexterity(5);
-        entityList[0].setPower(5);
-        entityList[0].setWill(5);
-        entityList[0].setAgility(5);
-        entityList[0].SetPrimaryAttack(1);
-        entityList[0].SetPrimaryValue(5);
-        entityList[0].setHp(entityList[0].getMaxHp());
-        entityList[0].SetDefaultLine("Hey there!");
-        entityList[0].SetAggroLine("I'll kill you!");
-        entityList[0].SetHP(30);
-    }
+    static ArrayList<Entity> entityList = new ArrayList<>();
     static void RoomInitialization() {
         String[] _names = {"Dark Cave Room", "Lit Cave Room", "Exit Perimeter"};
         String[] _descriptions = {"You are in a dark room that lacks any notable features.", "You are in a lit room with a bloodied floor", "You stand at the fringe of the cave, overviewing a large valley"};
@@ -40,7 +23,7 @@ public class Main {
 
         // entity table
         ArrayList<Entity> johnOnly = new ArrayList<Entity>();
-        johnOnly.add(entityList[0]);
+        johnOnly.add(entityList.get(0));
         ArrayList<ArrayList<Entity>> entityTables = new ArrayList<ArrayList<Entity>>(Arrays.asList(new ArrayList<Entity>(), johnOnly, new ArrayList<Entity>()));
 
         int i;
@@ -71,7 +54,7 @@ public class Main {
         State mainState = new State(player, rooms, 0);
 
         itemList = mainState.getItems();
-        EntityInitialization();
+        entityList = mainState.getEntities();
         RoomInitialization();
 
 

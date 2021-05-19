@@ -60,12 +60,12 @@ public class State {
     }
     public String DropItem(String input) {
         int i;
-        for (i = 0; i < player.inventory.size(); i++) {
-            if (player.inventory.get(i).getName().equals(input)) {
+        for (i = 0; i < player.getInventory().size(); i++) {
+            if (player.getInventory().get(i).getName().equals(input)) {
                 Room cur = allRooms.get(roomID);
-                cur.items.add(player.inventory.get(i));
-                String temp = player.inventory.get(i).getName();
-                player.inventory.remove(i);
+                cur.items.add(player.getInventory().get(i));
+                String temp = player.getInventory().get(i).getName();
+                player.getInventory().remove(i);
                 return temp;
             }
         }
@@ -95,28 +95,28 @@ public class State {
         float wSc;
         int i;
         String result;
-        for (i = 0; i < player.inventory.size(); i++) {
-            if (player.inventory.get(i).getName().equals(argOne)) {
-                itemEffect = player.inventory.get(i).effect;
-                itemValue = player.inventory.get(i).effectRating;
-                sReq = player.inventory.get(i).strengthRequirement;
-                sSc = player.inventory.get(i).strengthScaling;
-                dReq = player.inventory.get(i).dexterityRequirement;
-                dSc = player.inventory.get(i).dexterityScaling;
-                pReq = player.inventory.get(i).powerRequirement;
-                pSc = player.inventory.get(i).powerScaling;
-                wReq = player.inventory.get(i).willRequirement;
-                wSc = player.inventory.get(i).willScaling;
+        for (i = 0; i < player.getInventory().size(); i++) {
+            if (player.getInventory().get(i).getName().equals(argOne)) {
+                itemEffect = player.getInventory().get(i).effect;
+                itemValue = player.getInventory().get(i).effectRating;
+                sReq = player.getInventory().get(i).strengthRequirement;
+                sSc = player.getInventory().get(i).strengthScaling;
+                dReq = player.getInventory().get(i).dexterityRequirement;
+                dSc = player.getInventory().get(i).dexterityScaling;
+                pReq = player.getInventory().get(i).powerRequirement;
+                pSc = player.getInventory().get(i).powerScaling;
+                wReq = player.getInventory().get(i).willRequirement;
+                wSc = player.getInventory().get(i).willScaling;
                 itemValue += GetStatBonus(player.strength, sReq, sSc, player.dexterity, dReq, dSc, player.power, pReq, pSc, player.will, wReq, wSc);
             }
         }
         if (itemEffect != 0) {
             Room cur = allRooms.get(roomID);
-            for (i = 0; i < cur.entities.size(); i++) {
-                if (cur.entities.get(i).getName().equals(argTwo)) {
-                    result = cur.entities.get(i).applyEffect(itemEffect, itemValue, "You", cur.entities.get(i).getName());
+            for (i = 0; i < cur.GetEntities().size(); i++) {
+                if (cur.GetEntities().get(i).getName().equals(argTwo)) {
+                    result = cur.GetEntities().get(i).applyEffect(itemEffect, itemValue, "You", cur.GetEntities().get(i).getName());
                     if (result.equals("DEFEAT")) {
-                        cur.entities.remove(i);
+                        cur.GetEntities().remove(i);
                         return "You killed the target!";
                     }
                     return result;
@@ -128,7 +128,7 @@ public class State {
     String enemyCheck() {
         String toSend = "";
         Room cur = allRooms.get(roomID);
-        for (Entity ent : cur.entities) {
+        for (Entity ent : cur.GetEntities()) {
             if (ent.checkAggro()) {
                 toSend += player.applyEffect(ent.GetPrimaryAttack(), ent.GetPrimaryValue(), ent.getName(), "you") + "\n";
             }
@@ -143,7 +143,7 @@ public class State {
             int temp = allRooms.get(roomID).CheckDirection(args[1]);
             if (temp != -1) {
                 roomID = temp;
-                toReturn = "You go into " + allRooms.get(roomID).title + "\n";
+                toReturn = "You go into " + allRooms.get(roomID).GetTitle() + "\n";
             }
         }
         if ((args[0].equals("pickup") || args[0].equals("grab")) && args.length > 1) {
@@ -220,5 +220,27 @@ public class State {
             items.add(temp);
         }
         return items;
+    }
+    public static ArrayList<Entity> getEntities() throws SQLException {
+        Connection conn = connect();
+        var ents = new ArrayList<Entity>();
+        var statement = conn.createStatement();
+        var results = statement.executeQuery("SELECT * FROM entities");
+        while (results.next()) {
+            Entity temp = new Entity();
+            temp.setName(results.getString("name"));
+            temp.setHp(results.getInt("hp"));
+            temp.setStrength(results.getInt("strength"));
+            temp.setDexterity(results.getInt("dexterity"));
+            temp.setPower(results.getInt("power"));
+            temp.setWill(results.getInt("will"));
+            temp.setAgility(results.getInt("agility"));
+            temp.SetDefaultLine(results.getString("default_line"));
+            temp.SetAggroLine(results.getString("agro_line"));
+            temp.setPrimaryAttack(results.getInt("primary_attack"));
+            temp.setPrimaryValue(results.getInt("primary_value"));
+            ents.add(temp);
+        }
+        return ents;
     }
 }
