@@ -1,9 +1,6 @@
 package com.company;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -50,10 +47,10 @@ public class InitializeDatabase {
                 5, 10
         };
         var statement = conn.createStatement();
-        statement.execute("DROP TABLE IF EXISTS items;");
+        statement.execute("DROP TABLE IF EXISTS entities;");
         System.out.println("STEP 2");
         var st = conn.createStatement();
-        st.execute("CREATE TABLE items (" +
+        st.execute("CREATE TABLE entities (" +
                 "name TEXT," +
                 "hp INTEGER," +
                 "vitality INTEGER," +
@@ -71,7 +68,7 @@ public class InitializeDatabase {
 
         System.out.println("STEP 3");
         for (i = 0; i < names.length; i++) {
-            String query = " INSERT INTO items"
+            String query = " INSERT INTO entities"
                     + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1, names[i]);
@@ -181,6 +178,22 @@ public class InitializeDatabase {
             preparedStmt.execute();
         }
     }
+    static ArrayList<Entity> getEntities() throws SQLException {
+        ArrayList<Entity> ents = new ArrayList<Entity>();
+        var statement = conn.createStatement();
+        var results = statement.executeQuery("SELECT * FROM items");
+        while (results.next()) {
+            Entity temp = new Entity();
+            temp.setName(results.getString("name"));
+            temp.setHp(results.getInt("hp"));
+            temp.setStrength(results.getInt("strength"));
+            temp.setDexterity(results.getInt("dexterity"));
+            temp.setPower(results.getInt("power"));
+            temp.setWill(results.getInt("will"));
+
+        }
+        return ents;
+    }
     public static void main(String[] args) {
         connect();
         try {
@@ -189,10 +202,11 @@ public class InitializeDatabase {
             if (in.equals("yes")) {
                 setItems();
             }
-                itemList = getItems();
-                for (Item i : itemList) {
-                    System.out.println(i.name);
-                }
+            itemList = getItems();
+            for (Item i : itemList) {
+                System.out.println(i.name);
+            }
+
             conn.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
