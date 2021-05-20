@@ -16,7 +16,7 @@ public class WorldCreator {
         System.out.println("Welcome to the World Editor, where you can create or edit world");
         System.out.println("spaces using the packaged Items and NPCs!");
         String databaseChoice = "itemlist";
-        while (!databaseChoice.equals("new") && !databaseChoice.equals("edit")) {
+        while (databaseChoice.equals("itemlist")) {
             System.out.println("Please enter a file name for your world, except 'itemlist'.");
             databaseChoice = in.nextLine();
         }
@@ -28,7 +28,7 @@ public class WorldCreator {
                 "description TEXT," +
                 "entities TEXT," + //"ARRAY"
                 "items TEXT," + //"ARRAY"
-                "connected_rooms TEXT," + //"ARRAY"
+                "rooms TEXT," + //"ARRAY"
                 "commands TEXT" + //"ARRAY"
                 ");");
         var statement = conn.createStatement();
@@ -52,6 +52,96 @@ public class WorldCreator {
                 items.add(itemList.get(itemIntRef[i]));
             }
 
+            String roomRef = results.getString("rooms");
+            int[] roomIntRef = Arrays.stream(itemRef.split(".")).mapToInt(Integer::parseInt).toArray();
+
+            String comRef = results.getString("commands");
+            String[] commandsRef = comRef.split(".", 0);
+
+            temp.SetEntities(ents);
+            temp.SetItems(items);
+            temp.SetRooms(roomIntRef);
+            temp.SetRoomCommands(commandsRef);
+            roomList.add(temp);
+        }
+
+        String choice = "";
+        while (!choice.equals("save") && !choice.equals("quit")) {
+            System.out.println("/--------------------------------/");
+            if (roomList.size() == 0) {
+                System.out.println("This world contains no rooms.");
+            }
+            else {
+                int j = 0;
+                System.out.println("Current rooms:");
+                for (Room i : roomList) {
+
+                    System.out.println(j + ": " + i.GetTitle());
+                    j += 1;
+                }
+            }
+
+            System.out.println("What would you like to do?");
+            System.out.println("[edit] - redefine an existing room.");
+            System.out.println("[create] - create a new room.");
+            System.out.println("[save] - exit and save your changes.");
+            System.out.println("[quit] - exit WITHOUT saving your changes.");
+            choice = in.nextLine();
+            if (choice.equals("create")) {
+                Room temp = new Room();
+                String tz;
+                System.out.println("Enter the name of the room.");
+                tz = in.nextLine();
+                temp.SetTitle(tz);
+                System.out.println("Provide a description for this room.");
+                tz = in.nextLine();
+                temp.SetBaseDescription(tz);
+                tz = "-";
+                int d;
+                String entsRef = "";
+                while (!tz.equals("done")) {
+                    System.out.println("Enter the ID's of the NPCs for this room");
+                    System.out.println("or type [list] for a list of all NPCs.");
+                    System.out.println("Type [done] to move on.");
+                    tz = in.nextLine();
+                    if (tz.equals("list")) {
+                        int j = 0;
+                        for (Entity ez : entityList) {
+                            System.out.println(j + ": " + ez.getName());
+                            j += 1;
+                        }
+                    }
+                    else {
+                        try {
+                            d = Integer.parseInt(choice);
+                            entsRef += d + ".";
+                        } catch (NumberFormatException nfe) {
+                            continue;
+                        }
+
+                    }
+                }
+            }
+            if (choice.equals("edit")) {
+                int d;
+                while (true) {
+                    System.out.println("Enter the numeric ID of the room you want to edit.");
+                    choice = in.nextLine();
+                    try {
+                        d = Integer.parseInt(choice);
+                    } catch (NumberFormatException nfe) {
+                        continue;
+                    }
+                    break;
+                }
+                if (d > -1 && d < roomList.size()) {
+
+                }
+                else {
+
+                }
+
+            }
         }
     }
     //--------------+

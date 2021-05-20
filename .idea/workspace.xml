@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="925ee688-6a06-4fa7-ba75-687fb77d3fd6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/com/company/WorldCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/itemlist.db" beforeDir="false" afterPath="$PROJECT_DIR$/itemlist.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/WorldCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/WorldCreator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +106,7 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.WorldCreator">
     <configuration name="InitializeDatabase" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.company.InitializeDatabase" />
       <module name="Avelaror-JavaUnitProject" />
@@ -129,8 +130,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="WorldCreator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.company.WorldCreator" />
+      <module name="Avelaror-JavaUnitProject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.company.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.WorldCreator" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.InitializeDatabase" />
       </list>
