@@ -3,14 +3,18 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 public class State {
     Entity player;
     ArrayList<Room> allRooms;
     int roomID;
-    public State(Entity p, ArrayList<Room> ar, int r) {
+    public State(Entity p, int r) {
         player = p;
-        allRooms = ar;
         roomID = r;
+    }
+    public void SetRooms(ArrayList<Room> ar) {
+        allRooms = ar;
     }
     public String GetRoomDescription() {
         String paths = "";
@@ -184,8 +188,8 @@ public class State {
     //--------------+
     //DATABASE STUFF|
     //--------------+
-    private static Connection connect() {
-        String dburl = "jdbc:sqlite:itemlist.db";
+    private static Connection connect(String database) {
+        String dburl = "jdbc:sqlite:"+database+".db";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(dburl);
@@ -197,7 +201,7 @@ public class State {
         return conn;
     }
     public static ArrayList<Item> getItems() throws SQLException {
-        Connection conn = connect();
+        Connection conn = connect("itemlist");
         var items = new ArrayList<Item>();
         var statement = conn.createStatement();
         var results = statement.executeQuery("SELECT * FROM items");
@@ -221,8 +225,71 @@ public class State {
         }
         return items;
     }
+    public static ArrayList<Room> getRooms(ArrayList<Item> itemList, ArrayList<Entity> entityList) throws SQLException {
+        var roomList = new ArrayList();
+        Connection conn = connect("mainworld");
+        var statement = conn.createStatement();
+        var results = statement.executeQuery("SELECT * FROM rooms");
+        while (results.next()) {
+            int i;
+            Room temp = new Room();
+            temp.SetTitle(results.getString("title"));
+            temp.SetBaseDescription(results.getString("description"));
+
+            String entRef = results.getString("entities");
+            String itemRef = results.getString("items");
+
+            String roomRef = results.getString("rooms");
+            //int[] roomIntRef = Arrays.stream(itemRef.split(".")).mapToInt(Integer::parseInt).toArray();
+
+            String comRef = results.getString("commands");
+            //String[] commandsRef = comRef.split(".", 0);
+
+            temp.setEntitiesRef(entRef);
+            temp.setItemsRef(itemRef);
+            temp.setRoomsRef(roomRef);
+            temp.setRoomCommandsRef(comRef);
+            //.split(" ", 0);
+            if (entRef != null) {
+                String[] entitySplit = entRef.split(".", 0);
+                for (String regex : entitySplit) {
+                    try {
+                        ArrayList<Entity> zF = temp.GetEntities();
+                        zF.add(entityList.get(Integer.parseInt(regex)));
+                        temp.SetEntities(zF);
+                    } catch (NumberFormatException nfe){
+
+                    }
+                }
+            }
+
+            if (itemRef != null) {
+                String[] itemSplit = itemRef.split(".", 0);
+                for (String regex : itemSplit) {
+                    try {
+                        ArrayList<Item> zF = temp.GetItems();
+                        zF.add(itemList.get(Integer.parseInt(regex)));
+                        temp.SetItems(zF);
+                    } catch (NumberFormatException nfe){
+
+                    }
+
+                }
+            }
+
+            if (roomRef != null) {
+                temp.SetRooms(Arrays.stream(roomRef.split("\\.")).mapToInt(Integer::parseInt).toArray());
+                //System.out.println(Arrays.toString(temp.GetRooms()));
+                temp.SetRoomCommands(comRef.split("\\.", 0));
+            }
+
+
+            roomList.add(temp);
+        }
+        return roomList;
+    }
     public static ArrayList<Entity> getEntities() throws SQLException {
-        Connection conn = connect();
+        Connection conn = connect("itemlist");
         var ents = new ArrayList<Entity>();
         var statement = conn.createStatement();
         var results = statement.executeQuery("SELECT * FROM entities");
