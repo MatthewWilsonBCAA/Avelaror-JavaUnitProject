@@ -1,13 +1,52 @@
 package com.company;
 import java.util.ArrayList;
 public class Room implements java.io.Serializable {
-    public String title;
-    public String baseDescription;
-    public ArrayList<Entity> entities = new ArrayList<Entity>();
-    public ArrayList<Item> items = new ArrayList<Item>();
+    //Ref variables are used in world generation only
+    String title;
+    String baseDescription;
+    ArrayList<Entity> entities = new ArrayList<Entity>();
+    String entitiesRef;
+    ArrayList<Item> items = new ArrayList<Item>();
+    String itemsRef;
     //these are going to be parallel lists
     int[] rooms;
+
+
+    public String getItemsRef() {
+        return itemsRef;
+    }
+
+    public void setItemsRef(String itemsRef) {
+        this.itemsRef = itemsRef;
+    }
+
+    public String getRoomsRef() {
+        return roomsRef;
+    }
+
+    public void setRoomsRef(String roomsRef) {
+        this.roomsRef = roomsRef;
+    }
+
+    public String getRoomCommandsRef() {
+        return roomCommandsRef;
+    }
+
+    public void setRoomCommandsRef(String roomCommandsRef) {
+        this.roomCommandsRef = roomCommandsRef;
+    }
+
+    public String getEntitiesRef() {
+        return entitiesRef;
+    }
+
+    public void setEntitiesRef(String entitiesRef) {
+        this.entitiesRef = entitiesRef;
+    }
+
+    String roomsRef;
     String[] roomCommands;
+    String roomCommandsRef;
     public void SetTitle (String t) {
         title = t;
     }

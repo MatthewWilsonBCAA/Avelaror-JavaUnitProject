@@ -2,6 +2,7 @@ package com.company;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,28 +41,18 @@ public class WorldCreator {
             temp.SetBaseDescription(results.getString("description"));
 
             String entRef = results.getString("entities");
-            int[] entIntRef = Arrays.stream(entRef.split(".")).mapToInt(Integer::parseInt).toArray();
-            var ents = new ArrayList<Entity>();
-            for (i = 0; i < entIntRef.length; i++) {
-                ents.add(entityList.get(entIntRef[i]));
-            }
             String itemRef = results.getString("items");
-            int[] itemIntRef = Arrays.stream(itemRef.split(".")).mapToInt(Integer::parseInt).toArray();
-            var items = new ArrayList<Item>();
-            for (i = 0; i < itemIntRef.length; i++) {
-                items.add(itemList.get(itemIntRef[i]));
-            }
 
             String roomRef = results.getString("rooms");
-            int[] roomIntRef = Arrays.stream(itemRef.split(".")).mapToInt(Integer::parseInt).toArray();
+            //int[] roomIntRef = Arrays.stream(itemRef.split(".")).mapToInt(Integer::parseInt).toArray();
 
             String comRef = results.getString("commands");
-            String[] commandsRef = comRef.split(".", 0);
+            //String[] commandsRef = comRef.split(".", 0);
 
-            temp.SetEntities(ents);
-            temp.SetItems(items);
-            temp.SetRooms(roomIntRef);
-            temp.SetRoomCommands(commandsRef);
+            temp.setEntitiesRef(entRef);
+            temp.setItemsRef(itemRef);
+            temp.setRoomsRef(roomRef);
+            temp.setRoomCommandsRef(comRef);
             roomList.add(temp);
         }
 
@@ -75,16 +66,22 @@ public class WorldCreator {
                 int j = 0;
                 System.out.println("Current rooms:");
                 for (Room i : roomList) {
-
                     System.out.println(j + ": " + i.GetTitle());
+                    System.out.println(i.GetBaseDescription());
+                    System.out.println("NPC ID list: " + i.getEntitiesRef());
+                    System.out.println("Item ID list: " + i.getItemsRef());
+                    System.out.println("Linked Rooms list: " + i.getRoomsRef());
+                    System.out.println("Commands: " + i.getRoomCommandsRef());
+                    System.out.println("---------------------------------");
                     j += 1;
                 }
             }
 
             System.out.println("What would you like to do?");
-            System.out.println("[edit] - redefine an existing room.");
+            //System.out.println("[edit] - redefine an existing room.");
             System.out.println("[create] - create a new room.");
             System.out.println("[save] - exit and save your changes.");
+            System.out.println("[link] - link two rooms together.");
             System.out.println("[quit] - exit WITHOUT saving your changes.");
             choice = in.nextLine();
             if (choice.equals("create")) {
@@ -102,6 +99,7 @@ public class WorldCreator {
                 while (!tz.equals("done")) {
                     System.out.println("Enter the ID's of the NPCs for this room");
                     System.out.println("or type [list] for a list of all NPCs.");
+                    System.out.println("Type [current] for a read out of what you have so far.");
                     System.out.println("Type [done] to move on.");
                     tz = in.nextLine();
                     if (tz.equals("list")) {
@@ -111,36 +109,144 @@ public class WorldCreator {
                             j += 1;
                         }
                     }
+                    else if (tz.equals("current")) {
+                        System.out.println("Current: " + entsRef);
+                    }
                     else {
                         try {
-                            d = Integer.parseInt(choice);
+                            d = Integer.parseInt(tz);
                             entsRef += d + ".";
                         } catch (NumberFormatException nfe) {
                             continue;
                         }
-
                     }
                 }
+                temp.setEntitiesRef(entsRef);
+                tz = "-";
+                String itemsRef = "";
+                while (!tz.equals("done")) {
+                    System.out.println("Enter the ID's of the items for this room");
+                    System.out.println("or type [list] for a list of all Items.");
+                    System.out.println("Type [done] to move on.");
+                    tz = in.nextLine();
+                    if (tz.equals("list")) {
+                        int j = 0;
+                        for (Item ez : itemList) {
+                            System.out.println(j + ": " + ez.getName());
+                            j += 1;
+                        }
+                    }
+                    else {
+                        try {
+                            d = Integer.parseInt(tz);
+                            itemsRef += d + ".";
+                        } catch (NumberFormatException nfe) {
+                            continue;
+                        }
+                    }
+                }
+                temp.setItemsRef(itemsRef);
+                System.out.println("Room Created");
+                roomList.add(temp);
             }
-            if (choice.equals("edit")) {
-                int d;
-                while (true) {
-                    System.out.println("Enter the numeric ID of the room you want to edit.");
-                    choice = in.nextLine();
+//            if (choice.equals("edit")) {
+//                int d;
+//                while (true) {
+//                    System.out.println("Enter the numeric ID of the room you want to edit.");
+//                    choice = in.nextLine();
+//                    try {
+//                        d = Integer.parseInt(choice);
+//                    } catch (NumberFormatException nfe) {
+//                        continue;
+//                    }
+//                    break;
+//                }
+//                if (d > -1 && d < roomList.size()) {
+//
+//                }
+//                else {
+//
+//                }
+//
+//            }
+            if (choice.equals("link")) {
+                int d = -2;
+                int z = -2;
+                String chaza;
+                while (d < -1 || d >= roomList.size()) {
+                    System.out.println("Enter the ID for a room to link *from*, or -1 to cancel.");
+                    chaza = in.nextLine();
                     try {
-                        d = Integer.parseInt(choice);
+                        d = Integer.parseInt(chaza);
                     } catch (NumberFormatException nfe) {
                         continue;
                     }
+                }
+                if (d == -1) {
+                    continue;
+                }
+                while (z < -1 || z >= roomList.size()) {
+                    System.out.println("Enter the ID for a room to link *to*, or -1 to cancel.");
+                    chaza = in.nextLine();
+                    try {
+                        z = Integer.parseInt(chaza);
+                    } catch (NumberFormatException nfe) {
+                        continue;
+                    }
+                }
+                if (z == -1) {
+                    continue;
+                }
+                String com;
+                while (true) {
+                    System.out.println("Enter a one-word command for the transition from " + roomList.get(d).GetTitle() +
+                            " to " + roomList.get(d).GetTitle());
+                    com = in.nextLine();
+                    for (char reg : com.toCharArray()) {
+                        if (Character.isWhitespace(reg)) {
+                            continue;
+                        }
+                    }
                     break;
                 }
-                if (d > -1 && d < roomList.size()) {
-
+                String oldRoomRef = roomList.get(d).getRoomsRef();
+                String oldRoomComRef = roomList.get(d).getRoomCommandsRef();
+                if (oldRoomRef == null) {
+                    oldRoomRef = "";
                 }
-                else {
-
+                if (oldRoomComRef == null) {
+                    oldRoomComRef = "";
                 }
+                roomList.get(d).setRoomsRef(oldRoomRef + z + ".");
+                roomList.get(d).setRoomCommandsRef(oldRoomComRef + com + ".");
 
+
+
+
+            }
+            if (choice.equals("save")) {
+                var dropAndSave = conn.createStatement();
+                dropAndSave.execute("DROP TABLE IF EXISTS rooms;");
+                dropAndSave.execute("CREATE TABLE IF NOT EXISTS rooms (" +
+                        "title TEXT," +
+                        "description TEXT," +
+                        "entities TEXT," + //"ARRAY"
+                        "items TEXT," + //"ARRAY"
+                        "rooms TEXT," + //"ARRAY"
+                        "commands TEXT" + //"ARRAY"
+                        ");");
+                for (Room i : roomList) {
+                    String query = " INSERT INTO rooms"
+                            + " VALUES (?, ?, ?, ?, ?, ?)";
+                    PreparedStatement preparedStmt = conn.prepareStatement(query);
+                    preparedStmt.setString(1, i.GetTitle());
+                    preparedStmt.setString(2, i.GetBaseDescription());
+                    preparedStmt.setString(3, i.getEntitiesRef());
+                    preparedStmt.setString(4, i.getItemsRef());
+                    preparedStmt.setString(5, i.getRoomsRef());
+                    preparedStmt.setString(6, i.getRoomCommandsRef());
+                    preparedStmt.execute();
+                }
             }
         }
     }
