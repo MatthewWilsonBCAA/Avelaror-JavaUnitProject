@@ -270,14 +270,7 @@ public class State {
                 String[] itemSplit = itemRef.split("\\.", 0);
                 var zF = temp.GetItems();
                 for (String regex : itemSplit) {
-
-                    try {
-                        zF.add(itemList.get(Integer.parseInt(regex)));
-
-                    } catch (NumberFormatException nfe){
-
-                    }
-
+                    zF.add(itemList.get(Integer.parseInt(regex)));
                 }
                 temp.SetItems(zF);
             }
