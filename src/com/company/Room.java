@@ -1,5 +1,7 @@
 package com.company;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Room implements java.io.Serializable {
     //Ref variables are used in world generation only
     String title;
@@ -83,6 +85,7 @@ public class Room implements java.io.Serializable {
         }
     }
     public void SetItems(ArrayList<Item> i) {
+        System.out.println("zzz" + i.get(0).getName());
         for (Item rex : i) {
             Item temp = new Item();
             temp.setName(rex.getName());

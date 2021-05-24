@@ -230,7 +230,7 @@ public class State {
     }
     public static ArrayList<Room> getRooms(ArrayList<Item> itemList, ArrayList<Entity> entityList) throws SQLException {
         var roomList = new ArrayList();
-        Connection conn = connect("mainworld");
+        Connection conn = connect("avelaror");
         var statement = conn.createStatement();
         var results = statement.executeQuery("SELECT * FROM rooms");
         while (results.next()) {
@@ -254,7 +254,7 @@ public class State {
             temp.setRoomCommandsRef(comRef);
             //.split(" ", 0);
             if (entRef != null) {
-                String[] entitySplit = entRef.split(".", 0);
+                String[] entitySplit = entRef.split("\\.", 0);
                 for (String regex : entitySplit) {
                     try {
                         ArrayList<Entity> zF = temp.GetEntities();
@@ -267,17 +267,19 @@ public class State {
             }
 
             if (itemRef != null) {
-                String[] itemSplit = itemRef.split(".", 0);
+                String[] itemSplit = itemRef.split("\\.", 0);
+                var zF = temp.GetItems();
                 for (String regex : itemSplit) {
+
                     try {
-                        ArrayList<Item> zF = temp.GetItems();
                         zF.add(itemList.get(Integer.parseInt(regex)));
-                        temp.SetItems(zF);
+
                     } catch (NumberFormatException nfe){
 
                     }
 
                 }
+                temp.SetItems(zF);
             }
 
             if (roomRef != null) {

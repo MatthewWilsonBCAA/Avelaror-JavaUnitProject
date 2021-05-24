@@ -222,7 +222,7 @@ public class WorldCreator {
                 String com;
                 while (true) {
                     System.out.println("Enter a one-word command for the transition from " + roomList.get(d).GetTitle() +
-                            " to " + roomList.get(d).GetTitle());
+                            " to " + roomList.get(z).GetTitle());
                     com = in.nextLine();
                     for (char reg : com.toCharArray()) {
                         if (Character.isWhitespace(reg)) {

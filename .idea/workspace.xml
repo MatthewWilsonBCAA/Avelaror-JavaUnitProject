@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="925ee688-6a06-4fa7-ba75-687fb77d3fd6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/itemlist.db" beforeDir="false" afterPath="$PROJECT_DIR$/itemlist.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/State.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/company/WorldCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/WorldCreator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -99,6 +100,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.20689656" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
@@ -146,8 +148,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.InitializeDatabase" />
         <item itemvalue="Application.WorldCreator" />
+        <item itemvalue="Application.InitializeDatabase" />
       </list>
     </recent_temporary>
   </component>
@@ -180,6 +182,10 @@
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.util.InputMismatchException" package="java.util" />
           <option name="timeStamp" value="1" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.util.ConcurrentModificationException" package="java.util" />
+          <option name="timeStamp" value="3" />
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>
