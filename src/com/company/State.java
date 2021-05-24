@@ -136,6 +136,9 @@ public class State {
             if (ent.checkAggro()) {
                 toSend += player.applyEffect(ent.GetPrimaryAttack(), ent.GetPrimaryValue(), ent.getName(), "you") + "\n";
             }
+            else if (ent.getBecomeHostile() == 1 && !ent.checkAggro()) {
+                ent.applyEffect(-1, 0, "", "");
+            }
         }
         return toSend;
     }
@@ -306,6 +309,7 @@ public class State {
             temp.SetAggroLine(results.getString("agro_line"));
             temp.setPrimaryAttack(results.getInt("primary_attack"));
             temp.setPrimaryValue(results.getInt("primary_value"));
+            temp.setBecomeHostile(results.getInt("hostile"));
             ents.add(temp);
         }
         return ents;

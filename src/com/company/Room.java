@@ -76,6 +76,7 @@ public class Room implements java.io.Serializable {
                 temp.SetAggroLine(reg.getAggroLine());
                 temp.SetPrimaryAttack(reg.GetPrimaryAttack());
                 temp.SetPrimaryValue(reg.GetPrimaryValue());
+                temp.setBecomeHostile(reg.getBecomeHostile());
                 entities.add(temp);
 
             }

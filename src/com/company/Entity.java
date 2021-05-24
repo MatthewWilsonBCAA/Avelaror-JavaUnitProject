@@ -20,6 +20,16 @@ public class Entity implements java.io.Serializable {
     boolean isHostile = false;
     int primaryAttack;
     int primaryValue;
+
+    public int getBecomeHostile() {
+        return becomeHostile;
+    }
+
+    public void setBecomeHostile(int becomeHostile) {
+        this.becomeHostile = becomeHostile;
+    }
+
+    int becomeHostile;//0, no. 1, yes.
     public void SetPrimaryAttack(int p) {
         primaryAttack = p;
     }
@@ -171,6 +181,9 @@ public class Entity implements java.io.Serializable {
                 return "DEFEAT";
             }
             return attacker + " dealt " + dmg + " damage to " + target + "\n";
+        }
+        else if (effect == -1) {
+            isHostile = true;
         }
         return "The effect failed";
     }
