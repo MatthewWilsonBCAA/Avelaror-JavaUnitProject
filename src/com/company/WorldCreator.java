@@ -78,13 +78,29 @@ public class WorldCreator {
             }
 
             System.out.println("What would you like to do?");
-            //System.out.println("[edit] - redefine an existing room.");
+            System.out.println("[replace] - redefine an existing room.");
             System.out.println("[create] - create a new room.");
             System.out.println("[save] - exit and save your changes.");
             System.out.println("[link] - link two rooms together.");
             System.out.println("[quit] - exit WITHOUT saving your changes.");
             choice = in.nextLine();
-            if (choice.equals("create")) {
+            if (choice.equals("create") || choice.equals("replace")) {
+                int replaceID = -1;
+                if (choice.equals("replace")) {
+                    String i;
+                    while (true) {
+                        System.out.println("Please enter the ID of the room you want to replace.");
+                        i = in.nextLine();
+                        try {
+                            replaceID = Integer.parseInt(i);
+                            break;
+                        } catch (NumberFormatException nfe) {
+                            continue;
+                        }
+                    }
+
+
+                }
                 Room temp = new Room();
                 String tz;
                 System.out.println("Enter the name of the room.");
@@ -147,7 +163,13 @@ public class WorldCreator {
                 }
                 temp.setItemsRef(itemsRef);
                 System.out.println("Room Created");
-                roomList.add(temp);
+                if (choice.equals("replace")) {
+                    roomList.set(replaceID, temp);
+                }
+                else {
+                    roomList.add(temp);
+                }
+
             }
 //            if (choice.equals("edit")) {
 //                int d;
