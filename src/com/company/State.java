@@ -255,22 +255,24 @@ public class State {
             //.split(" ", 0);
             if (entRef != null) {
                 String[] entitySplit = entRef.split("\\.", 0);
+                var zF = new ArrayList<Entity>();
                 for (String regex : entitySplit) {
-                    try {
-                        ArrayList<Entity> zF = temp.GetEntities();
+                    if (!regex.equals("")) {
                         zF.add(entityList.get(Integer.parseInt(regex)));
-                        temp.SetEntities(zF);
-                    } catch (NumberFormatException nfe){
-
                     }
+
                 }
+                temp.SetEntities(zF);
             }
 
             if (itemRef != null) {
                 String[] itemSplit = itemRef.split("\\.", 0);
-                var zF = temp.GetItems();
+                var zF = new ArrayList<Item>();
                 for (String regex : itemSplit) {
-                    zF.add(itemList.get(Integer.parseInt(regex)));
+                    if (!regex.equals("")) {
+                        zF.add(itemList.get(Integer.parseInt(regex)));
+                    }
+
                 }
                 temp.SetItems(zF);
             }
