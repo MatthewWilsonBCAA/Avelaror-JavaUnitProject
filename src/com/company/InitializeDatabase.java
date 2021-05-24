@@ -11,10 +11,10 @@ public class InitializeDatabase {
     static Connection conn;
     public static void setEntities() throws SQLException {
         String[] names = {
-            "Rosa", "Mark"
+            "Rat", "Wolf"
         };
         int[] hps = {
-                20, 30
+                25, 50
         };
         int[] vits = {
                 2, 3
@@ -35,16 +35,20 @@ public class InitializeDatabase {
                 1, 1
         };
         String[] defaults = {
-                "Hello there, traveler.", "Hey there, wanderer."
+                "*chattering*", "*growling*"
         };
         String[] agros = {
-                "You idiot! I'll kill you!", "I will slit your throat!"
+                "*squealing*", "*barks and growls*"
         };
         int[] pas = {
                 1, 1
         };
         int[] pvs = {
                 5, 10
+        };
+        //0, no. 1, yes.
+        int[] aggros = {
+                1, 1
         };
         var statement = conn.createStatement();
         statement.execute("DROP TABLE IF EXISTS entities;");
@@ -62,14 +66,15 @@ public class InitializeDatabase {
                 "default_line TEXT," +
                 "agro_line TEXT," +
                 "primary_attack INTEGER," +
-                "primary_value INTEGER" +
+                "primary_value INTEGER," +
+                "hostile INTEGER" + //0, no. 1, yes.
                 ");");
         int i;
 
         System.out.println("STEP 3");
         for (i = 0; i < names.length; i++) {
             String query = " INSERT INTO entities"
-                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1, names[i]);
             preparedStmt.setInt(2, hps[i]);
@@ -83,6 +88,7 @@ public class InitializeDatabase {
             preparedStmt.setString(10, agros[i]);
             preparedStmt.setInt(11, pas[i]);
             preparedStmt.setInt(12, pvs[i]);
+            preparedStmt.setInt(13, aggros[i]);
             preparedStmt.execute();
         }
     }
@@ -90,48 +96,54 @@ public class InitializeDatabase {
         String[] names = {
                 "Short_Sword",
                 "Gold_Sack",
-                "Large_Gold_Sack"
+                "Large_Gold_Sack",
+                "Arming Sword",
+                "Long Sword",
+                "War Axe"
         };
         String[] flavorTexts = {
                 "A standard self-defense weapon",
                 "A sack of 20 gold pieces",
-                "A sack of 50 gold pieces"
+                "A sack of 50 gold pieces",
+                "Standard weapon for soldiers",
+                "A greatsword that can be used with either one or both hands",
+                "A small axe used in combat"
         };
         int[] effects = {
-                1, 0, 0
+                1, 0, 0, 1, 1, 2
         };
         int[] effectRatings = {
-                10, 0, 0
+                20, 0, 0, 25, 30, 25
         };
         int[] strengthReqs = {
-                5, 0, 0
+                5, 0, 0, 10, 15, 10
         };
         float[] strengthScales = {
-                1.0f, 0.0f, 0.0f
+                1.0f, 0.0f, 0.0f, 2.0f, 2.0f, 2.0f
         };
         int[] dexterityReqs = {
-                10, 0, 0
+                10, 0, 0, 5, 7, 5
         };
         float[] dexterityScales = {
-                2.0f, 0.0f, 0.0f
+                2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f
         };
         int[] powerReqs = {
-                0, 0, 0
+                0, 0, 0, 0, 0, 0
         };
         float[] powerScales = {
-                0.0f, 0.0f, 0.0f
+                0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f
         };
         int[] willReqs = {
-                0, 0, 0
+                0, 0, 0, 0, 0, 0
         };
         float[] willScales = {
-                0.0f, 0.0f, 0.0f
+                0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f
         };
         float[] weights = {
-                2.0f, 0.0f, 0.0f
+                2.0f, 0.0f, 0.0f, 3.0f, 4.0f, 3.0f
         };
         int[] values = {
-                30, 20, 50
+                30, 20, 50, 45, 55, 45
         };
         System.out.println("STEP 1");
         var statement = conn.createStatement();
