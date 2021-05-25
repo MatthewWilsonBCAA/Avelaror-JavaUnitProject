@@ -14,8 +14,9 @@ public class Main {
 
 
     public static void main(String[] args) throws SQLException {
-
-        State mainState = new State();
+        System.out.println("Please enter the .db file you want to load (the game will crash if you mistype)");
+        String zeta = input.nextLine();
+        State mainState = new State(zeta);
         mainState.setPlayer();
         itemList = mainState.getItems();
         entityList = mainState.getEntities();

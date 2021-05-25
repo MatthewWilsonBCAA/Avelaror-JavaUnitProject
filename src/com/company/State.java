@@ -9,8 +9,9 @@ public class State {
     Entity player;
     ArrayList<Room> allRooms;
     int roomID;
-    public State() {
-
+    String database;
+    public State(String db) {
+        database = db;
     }
     public void SetRooms(ArrayList<Room> ar) {
         allRooms = ar;
@@ -227,13 +228,12 @@ public class State {
         }
         return items;
     }
-    public static ArrayList<Room> getRooms(ArrayList<Item> itemList, ArrayList<Entity> entityList) throws SQLException {
+    public ArrayList<Room> getRooms(ArrayList<Item> itemList, ArrayList<Entity> entityList) throws SQLException {
         var roomList = new ArrayList();
-        Connection conn = connect("avelaror");
+        Connection conn = connect(database);
         var statement = conn.createStatement();
         var results = statement.executeQuery("SELECT * FROM rooms");
         while (results.next()) {
-            int i;
             Room temp = new Room();
             temp.SetTitle(results.getString("title"));
             temp.SetBaseDescription(results.getString("description"));
@@ -311,7 +311,7 @@ public class State {
         return ents;
     }
     public void setPlayer() throws SQLException {
-        Connection conn = connect("avelaror");
+        Connection conn = connect(database);
         var statement = conn.createStatement();
         statement.execute("CREATE TABLE IF NOT EXISTS player (" +
                 "name TEXT DEFAULT \"player\"," +
@@ -353,14 +353,14 @@ public class State {
                     "0);"
             );
             player.setName("player");
-            player.SetHP(results.getInt(50));
+            player.SetHP(50);
             player.setVitality(5);
             player.setStrength(5);
             player.setDexterity(5);
             player.setPower(5);
             player.setWill(5);
             player.setAgility(5);
-            roomID = results.getInt("location");
+            roomID = 0;
         }
     }
 }
