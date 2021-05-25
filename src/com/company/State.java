@@ -313,8 +313,8 @@ public class State {
     public void setPlayer() throws SQLException {
         Connection conn = connect("avelaror");
         var statement = conn.createStatement();
-        statement.execute("CREATE TABLE IF NOT EXISTS playersave (" +
-                "name TEXT DEFAULT player," +
+        statement.execute("CREATE TABLE IF NOT EXISTS player (" +
+                "name TEXT DEFAULT \"player\"," +
                 "health INTEGER DEFAULT 50," +
                 "vitality INTEGER DEFAULT 5," +
                 "strength INTEGER DEFAULT 5," +
@@ -324,16 +324,43 @@ public class State {
                 "agility INTEGER DEFAULT 5," +
                 "location INTEGER DEFAULT 0" +
                 ");");
-        var results = statement.executeQuery("SELECT * FROM playersave");
+        var regQuery = conn.createStatement();
+        var results = regQuery.executeQuery("SELECT * FROM player;");
         player = new Entity();
-        player.setName(results.getString("name"));
-        player.SetHP(results.getInt("health"));
-        player.setVitality(results.getInt("vitality"));
-        player.setStrength(results.getInt("strength"));
-        player.setDexterity(results.getInt("dexterity"));
-        player.setPower(results.getInt("power"));
-        player.setWill(results.getInt("will"));
-        player.setAgility(results.getInt("agility"));
-        roomID = results.getInt("location");
+        boolean zeta = false;
+        while (results.next()) {
+            System.out.println("CYCLING");
+            player.setName(results.getString("name"));
+            player.SetHP(results.getInt("health"));
+            player.setVitality(results.getInt("vitality"));
+            player.setStrength(results.getInt("strength"));
+            player.setDexterity(results.getInt("dexterity"));
+            player.setPower(results.getInt("power"));
+            player.setWill(results.getInt("will"));
+            player.setAgility(results.getInt("agility"));
+            roomID = results.getInt("location");
+        }
+        if (player.getHp() == 0) {
+            statement.execute("INSERT INTO player VALUES (" +
+                    "\"player\"," +
+                    "50," +
+                    "5," +
+                    "5," +
+                    "5," +
+                    "5," +
+                    "5," +
+                    "5," +
+                    "0);"
+            );
+            player.setName("player");
+            player.SetHP(results.getInt(50));
+            player.setVitality(5);
+            player.setStrength(5);
+            player.setDexterity(5);
+            player.setPower(5);
+            player.setWill(5);
+            player.setAgility(5);
+            roomID = results.getInt("location");
+        }
     }
 }
