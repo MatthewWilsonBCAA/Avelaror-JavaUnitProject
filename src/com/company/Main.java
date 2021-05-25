@@ -14,22 +14,12 @@ public class Main {
 
 
     public static void main(String[] args) throws SQLException {
-        Entity player = new Entity();
-        player.setName("player");
-        player.setVitality(10);
-        player.setStrength(10);
-        player.setDexterity(10);
-        player.setPower(10);
-        player.setWill(10);
-        player.setAgility(10);
-        player.SetHP(player.maxHp);
-        State mainState = new State(player, 0);
 
+        State mainState = new State();
+        mainState.setPlayer();
         itemList = mainState.getItems();
         entityList = mainState.getEntities();
         mainState.SetRooms(mainState.getRooms(itemList, entityList));
-
-
 
         String j = "bean";
         String toPrint = "";

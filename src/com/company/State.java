@@ -9,9 +9,8 @@ public class State {
     Entity player;
     ArrayList<Room> allRooms;
     int roomID;
-    public State(Entity p, int r) {
-        player = p;
-        roomID = r;
+    public State() {
+
     }
     public void SetRooms(ArrayList<Room> ar) {
         allRooms = ar;
@@ -310,5 +309,31 @@ public class State {
             ents.add(temp);
         }
         return ents;
+    }
+    public void setPlayer() throws SQLException {
+        Connection conn = connect("avelaror");
+        var statement = conn.createStatement();
+        statement.execute("CREATE TABLE IF NOT EXISTS playersave (" +
+                "name TEXT DEFAULT player," +
+                "health INTEGER DEFAULT 50," +
+                "vitality INTEGER DEFAULT 5," +
+                "strength INTEGER DEFAULT 5," +
+                "dexterity INTEGER DEFAULT 5," +
+                "power INTEGER DEFAULT 5," +
+                "will INTEGER DEFAULT 5," +
+                "agility INTEGER DEFAULT 5," +
+                "location INTEGER DEFAULT 0" +
+                ");");
+        var results = statement.executeQuery("SELECT * FROM playersave");
+        player = new Entity();
+        player.setName(results.getString("name"));
+        player.SetHP(results.getInt("health"));
+        player.setVitality(results.getInt("vitality"));
+        player.setStrength(results.getInt("strength"));
+        player.setDexterity(results.getInt("dexterity"));
+        player.setPower(results.getInt("power"));
+        player.setWill(results.getInt("will"));
+        player.setAgility(results.getInt("agility"));
+        roomID = results.getInt("location");
     }
 }
