@@ -1,11 +1,7 @@
 package com.company;
-import java.sql.Array;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Scanner;
 public class Main {
     public static Scanner input = new Scanner(System.in);
     public static ArrayList<Room> rooms = new ArrayList<Room>();
@@ -17,6 +13,15 @@ public class Main {
         System.out.println("Please enter the .db file you want to load (the game will crash if you mistype)");
         String zeta = input.nextLine();
         State mainState = new State(zeta);
+        String isLoading = "";
+        while (!isLoading.equals("continue") && !isLoading.equals("new")) {
+            System.out.println("Would you like to [continue] your current save or start a [new] one.");
+            System.out.println("Notes:");
+            System.out.println("If you enter continue without a save for this world, you will default");
+            System.out.println("to a new game. Also, entering new will erase all of your old progress.");
+        }
+
+
         mainState.setPlayer();
         itemList = mainState.getItems();
         entityList = mainState.getEntities();
