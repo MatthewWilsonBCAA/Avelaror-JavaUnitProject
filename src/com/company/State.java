@@ -8,6 +8,7 @@ import java.util.Arrays;
 public class State {
     Entity player;
     ArrayList<Room> allRooms;
+    ArrayList<Item> _items;
     int roomID;
     String database;
     public State(String db) {
@@ -212,7 +213,7 @@ public class State {
         }
         return conn;
     }
-    public static ArrayList<Item> getItems() throws SQLException {
+    public ArrayList<Item> getItems() throws SQLException {
         Connection conn = connect("itemlist");
         var items = new ArrayList<Item>();
         var statement = conn.createStatement();
@@ -236,6 +237,7 @@ public class State {
             items.add(temp);
         }
         conn.close();
+        this._items = items;
         return items;
     }
     public ArrayList<Room> getRooms(ArrayList<Item> itemList, ArrayList<Entity> entityList) throws SQLException {
@@ -336,7 +338,8 @@ public class State {
                     "power INTEGER DEFAULT 5," +
                     "will INTEGER DEFAULT 5," +
                     "agility INTEGER DEFAULT 5," +
-                    "location INTEGER" +
+                    "location INTEGER," +
+                    "inventory TEXT" +
                     ");");
         }
         else {
@@ -355,6 +358,19 @@ public class State {
                 player.setWill(results.getInt("will"));
                 player.setAgility(results.getInt("agility"));
                 roomID = results.getInt("location");
+                String inventoryRef = results.getString("inventory");
+                ArrayList<Item> tempInv = new ArrayList<>();
+                ArrayList<Integer> zetaInv = new ArrayList<>();
+                String[] betaInv = inventoryRef.split("\\.");
+                for (String b : betaInv) {
+                    if (!b.equals("")) {
+                        zetaInv.add(Integer.parseInt(b));
+                    }
+                }
+                for (int z : zetaInv) {
+                    tempInv.add(this._items.get(z));
+                }
+                player.setInventory(tempInv);
             }
         }
 
@@ -369,7 +385,8 @@ public class State {
                     "power INTEGER DEFAULT 5," +
                     "will INTEGER DEFAULT 5," +
                     "agility INTEGER DEFAULT 5," +
-                    "location INTEGER" +
+                    "location INTEGER," +
+                    "inventory TEXT" +
                     ");");
             statement.execute("INSERT INTO player VALUES (" +
                     "\"player\"," +
@@ -380,11 +397,14 @@ public class State {
                     "5," +
                     "5," +
                     "5," +
-                    "0);"
+                    "0," +
+                    "\"\"" +
+                    ");"
             );
             player.setName("player");
-            player.SetHP(50);
+
             player.setVitality(5);
+            player.SetHP(50);
             player.setStrength(5);
             player.setDexterity(5);
             player.setPower(5);
@@ -400,15 +420,25 @@ public class State {
         statement.execute("DROP TABLE player;");
         statement.execute("CREATE TABLE player (" +
                 "name TEXT DEFAULT \"player\"," +
-                "health INTEGER DEFAULT 50," +
-                "vitality INTEGER DEFAULT 5," +
-                "strength INTEGER DEFAULT 5," +
-                "dexterity INTEGER DEFAULT 5," +
-                "power INTEGER DEFAULT 5," +
-                "will INTEGER DEFAULT 5," +
-                "agility INTEGER DEFAULT 5," +
-                "location INTEGER" +
+                "health INTEGER," +
+                "vitality INTEGER," +
+                "strength INTEGER," +
+                "dexterity INTEGER," +
+                "power INTEGER," +
+                "will INTEGER," +
+                "agility INTEGER," +
+                "location INTEGER," +
+                "inventory TEXT" +
                 ");");
+        String inventoryText = "";
+        for (Item item : player.getInventory()) {
+            for (int i = 0; i < this._items.size(); i++) {
+                if (this._items.get(i).getName().equals(item.getName())) {
+                    inventoryText += "." + i;
+                    break;
+                }
+            }
+        }
         statement.execute("INSERT INTO player VALUES (" +
                 "\"" + player.getName() + "\"," +
                 player.getHp() + "," +
@@ -418,7 +448,9 @@ public class State {
                 player.getPower() + "," +
                 player.getWill() + "," +
                 player.getAgility() + "," +
-                roomID + ");"
+                roomID + "," +
+                "\"" + inventoryText + "\"" +
+                ");"
         );
         conn.close();
     }

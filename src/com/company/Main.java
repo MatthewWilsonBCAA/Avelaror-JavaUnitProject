@@ -23,9 +23,10 @@ public class Main {
         }
 
 
-        mainState.setPlayer(isLoading);
+
         itemList = mainState.getItems();
         entityList = mainState.getEntities();
+        mainState.setPlayer(isLoading);
         mainState.SetRooms(mainState.getRooms(itemList, entityList));
 
         String j = "bean";
