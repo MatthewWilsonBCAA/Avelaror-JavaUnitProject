@@ -69,10 +69,6 @@ public class Entity implements java.io.Serializable {
         return hp;
     }
 
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
-
     public int getMaxHp() {
         return maxHp;
     }

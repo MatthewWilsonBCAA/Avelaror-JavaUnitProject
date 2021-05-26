@@ -3,7 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="925ee688-6a06-4fa7-ba75-687fb77d3fd6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avelaror.db" beforeDir="false" afterPath="$PROJECT_DIR$/avelaror.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/itemlist.db" beforeDir="false" afterPath="$PROJECT_DIR$/itemlist.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/InitializeDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/InitializeDatabase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/company/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/State.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/WorldCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/WorldCreator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +36,9 @@
     </file-type-list>
   </component>
   <component name="ProjectId" id="1sAyOfzEucjGZkDqYK88ZTK1kGo" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
       <flattenPackages />
@@ -89,6 +99,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="Downloaded.Files.Path.Enabled" value="false" />
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
@@ -106,7 +117,7 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.InitializeDatabase">
     <configuration name="InitializeDatabase" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.company.InitializeDatabase" />
       <module name="Avelaror-JavaUnitProject" />
@@ -145,9 +156,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.InitializeDatabase" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.WorldCreator" />
-        <item itemvalue="Application.InitializeDatabase" />
       </list>
     </recent_temporary>
   </component>
@@ -173,6 +184,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

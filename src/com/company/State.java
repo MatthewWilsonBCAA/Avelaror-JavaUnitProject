@@ -114,7 +114,7 @@ public class State {
                 itemValue += GetStatBonus(player.strength, sReq, sSc, player.dexterity, dReq, dSc, player.power, pReq, pSc, player.will, wReq, wSc);
             }
         }
-        if (itemEffect != 0) {
+        if (itemEffect > 0) {
             Room cur = allRooms.get(roomID);
             for (i = 0; i < cur.GetEntities().size(); i++) {
                 if (cur.GetEntities().get(i).getName().equals(argTwo)) {
@@ -142,8 +142,15 @@ public class State {
         }
         return toSend;
     }
-
-    public String ReceiveInput(String input) {
+    String checkForEmptyRoom() throws SQLException {
+        Room cur = allRooms.get(roomID);
+        if (cur.getEntitiesRef().length() > 0 || cur.getItemsRef().length() > 0) {
+            return "You must be in an empty room to save!";
+        }
+        savePlayer();
+        return "Saving progress...";
+    }
+    public String ReceiveInput(String input) throws SQLException {
         String[] args = input.split(" ", 0);
         String toReturn = "That was not a valid command!";
         if ((args[0].equals("go") || args[0].equals("enter")) && args.length > 1) {
@@ -177,8 +184,11 @@ public class State {
         if ((args[0].equals("use") || args[0].equals("activate")) && args[2].equals("on") && args.length == 4) {
             toReturn = ApplyEffect(args[1],args[3]);
         }
+        if (args[0].equals("save")) {
+            toReturn = checkForEmptyRoom();
+        }
         if (args[0].equals("exit")) {
-            toReturn = "Are you sure? (Type 'exit' again)";
+            toReturn = "Are you sure? You will lose unsaved progress! (Type 'exit' again)";
         }
         String temp = enemyCheck();
         if (temp.contains("DEFEAT")) {
@@ -196,7 +206,6 @@ public class State {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(dburl);
-            System.out.println("Connection to SQLite has been established.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             System.exit(1);
@@ -226,6 +235,7 @@ public class State {
             temp.setValue(results.getInt("value"));
             items.add(temp);
         }
+        conn.close();
         return items;
     }
     public ArrayList<Room> getRooms(ArrayList<Item> itemList, ArrayList<Entity> entityList) throws SQLException {
@@ -278,13 +288,13 @@ public class State {
 
             if (roomRef != null) {
                 temp.SetRooms(Arrays.stream(roomRef.split("\\.")).mapToInt(Integer::parseInt).toArray());
-                //System.out.println(Arrays.toString(temp.GetRooms()));
                 temp.SetRoomCommands(comRef.split("\\.", 0));
             }
 
 
             roomList.add(temp);
         }
+        conn.close();
         return roomList;
     }
     public static ArrayList<Entity> getEntities() throws SQLException {
@@ -295,7 +305,8 @@ public class State {
         while (results.next()) {
             Entity temp = new Entity();
             temp.setName(results.getString("name"));
-            temp.setHp(results.getInt("hp"));
+            temp.setVitality(results.getInt("vitality"));
+            temp.SetHP(results.getInt("hp"));
             temp.setStrength(results.getInt("strength"));
             temp.setDexterity(results.getInt("dexterity"));
             temp.setPower(results.getInt("power"));
@@ -308,39 +319,58 @@ public class State {
             temp.setBecomeHostile(results.getInt("hostile"));
             ents.add(temp);
         }
+        conn.close();
         return ents;
     }
-    public void setPlayer() throws SQLException {
+    public void setPlayer(String isLoading) throws SQLException {
         Connection conn = connect(database);
-        var statement = conn.createStatement();
-        statement.execute("CREATE TABLE IF NOT EXISTS player (" +
-                "name TEXT DEFAULT \"player\"," +
-                "health INTEGER DEFAULT 50," +
-                "vitality INTEGER DEFAULT 5," +
-                "strength INTEGER DEFAULT 5," +
-                "dexterity INTEGER DEFAULT 5," +
-                "power INTEGER DEFAULT 5," +
-                "will INTEGER DEFAULT 5," +
-                "agility INTEGER DEFAULT 5," +
-                "location INTEGER DEFAULT 0" +
-                ");");
-        var regQuery = conn.createStatement();
-        var results = regQuery.executeQuery("SELECT * FROM player;");
         player = new Entity();
-        boolean zeta = false;
-        while (results.next()) {
-            System.out.println("CYCLING");
-            player.setName(results.getString("name"));
-            player.SetHP(results.getInt("health"));
-            player.setVitality(results.getInt("vitality"));
-            player.setStrength(results.getInt("strength"));
-            player.setDexterity(results.getInt("dexterity"));
-            player.setPower(results.getInt("power"));
-            player.setWill(results.getInt("will"));
-            player.setAgility(results.getInt("agility"));
-            roomID = results.getInt("location");
+        var statement = conn.createStatement();
+        if (isLoading.equals("new")) {
+            statement.execute("CREATE TABLE IF NOT EXISTS player (" +
+                    "name TEXT DEFAULT \"player\"," +
+                    "health INTEGER DEFAULT 50," +
+                    "vitality INTEGER DEFAULT 5," +
+                    "strength INTEGER DEFAULT 5," +
+                    "dexterity INTEGER DEFAULT 5," +
+                    "power INTEGER DEFAULT 5," +
+                    "will INTEGER DEFAULT 5," +
+                    "agility INTEGER DEFAULT 5," +
+                    "location INTEGER" +
+                    ");");
         }
+        else {
+            var regQuery = conn.createStatement();
+            var results = regQuery.executeQuery("SELECT * FROM player;");
+
+            boolean zeta = false;
+            while (results.next()) {
+                player.setName(results.getString("name"));
+
+                player.setVitality(results.getInt("vitality"));
+                player.SetHP(results.getInt("health"));
+                player.setStrength(results.getInt("strength"));
+                player.setDexterity(results.getInt("dexterity"));
+                player.setPower(results.getInt("power"));
+                player.setWill(results.getInt("will"));
+                player.setAgility(results.getInt("agility"));
+                roomID = results.getInt("location");
+            }
+        }
+
         if (player.getHp() == 0) {
+            statement.execute("DROP TABLE player;");
+            statement.execute("CREATE TABLE player (" +
+                    "name TEXT DEFAULT \"player\"," +
+                    "health INTEGER DEFAULT 50," +
+                    "vitality INTEGER DEFAULT 5," +
+                    "strength INTEGER DEFAULT 5," +
+                    "dexterity INTEGER DEFAULT 5," +
+                    "power INTEGER DEFAULT 5," +
+                    "will INTEGER DEFAULT 5," +
+                    "agility INTEGER DEFAULT 5," +
+                    "location INTEGER" +
+                    ");");
             statement.execute("INSERT INTO player VALUES (" +
                     "\"player\"," +
                     "50," +
@@ -362,5 +392,34 @@ public class State {
             player.setAgility(5);
             roomID = 0;
         }
+        conn.close();
+    }
+    public void savePlayer() throws SQLException {
+        Connection conn = connect(database);
+        var statement = conn.createStatement();
+        statement.execute("DROP TABLE player;");
+        statement.execute("CREATE TABLE player (" +
+                "name TEXT DEFAULT \"player\"," +
+                "health INTEGER DEFAULT 50," +
+                "vitality INTEGER DEFAULT 5," +
+                "strength INTEGER DEFAULT 5," +
+                "dexterity INTEGER DEFAULT 5," +
+                "power INTEGER DEFAULT 5," +
+                "will INTEGER DEFAULT 5," +
+                "agility INTEGER DEFAULT 5," +
+                "location INTEGER" +
+                ");");
+        statement.execute("INSERT INTO player VALUES (" +
+                "\"" + player.getName() + "\"," +
+                player.getHp() + "," +
+                player.getVitality() + "," +
+                player.getStrength() + "," +
+                player.getDexterity() + "," +
+                player.getPower() + "," +
+                player.getWill() + "," +
+                player.getAgility() + "," +
+                roomID + ");"
+        );
+        conn.close();
     }
 }

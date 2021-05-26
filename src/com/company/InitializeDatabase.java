@@ -97,9 +97,9 @@ public class InitializeDatabase {
                 "Short_Sword",
                 "Gold_Sack",
                 "Large_Gold_Sack",
-                "Arming Sword",
-                "Long Sword",
-                "War Axe"
+                "Arming_Sword",
+                "Long_Sword",
+                "War_Axe"
         };
         String[] flavorTexts = {
                 "A standard self-defense weapon",
@@ -197,7 +197,7 @@ public class InitializeDatabase {
         while (results.next()) {
             Entity temp = new Entity();
             temp.setName(results.getString("name"));
-            temp.setHp(results.getInt("hp"));
+            temp.SetHP(results.getInt("hp"));
             temp.setStrength(results.getInt("strength"));
             temp.setDexterity(results.getInt("dexterity"));
             temp.setPower(results.getInt("power"));

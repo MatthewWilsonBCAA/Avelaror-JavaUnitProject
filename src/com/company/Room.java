@@ -67,7 +67,7 @@ public class Room implements java.io.Serializable {
                 Entity temp = new Entity();
                 temp.setName(reg.getName());
                 temp.setInventory(reg.getInventory());
-                temp.setHp(reg.getHp());
+                temp.SetHP(reg.getHp());
                 temp.setVitality(reg.getVitality());
                 temp.setStrength(reg.getStrength());
                 temp.setDexterity(reg.getDexterity());

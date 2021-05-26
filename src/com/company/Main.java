@@ -19,10 +19,11 @@ public class Main {
             System.out.println("Notes:");
             System.out.println("If you enter continue without a save for this world, you will default");
             System.out.println("to a new game. Also, entering new will erase all of your old progress.");
+            isLoading = input.nextLine();
         }
 
 
-        mainState.setPlayer();
+        mainState.setPlayer(isLoading);
         itemList = mainState.getItems();
         entityList = mainState.getEntities();
         mainState.SetRooms(mainState.getRooms(itemList, entityList));
