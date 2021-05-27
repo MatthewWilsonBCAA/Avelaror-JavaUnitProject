@@ -99,7 +99,10 @@ public class InitializeDatabase {
                 "Large_Gold_Sack",
                 "Arming_Sword",
                 "Long_Sword",
-                "War_Axe"
+                "War_Axe",
+                "Mace",
+                "Pike",
+                "Fireball"
         };
         String[] flavorTexts = {
                 "A standard self-defense weapon",
@@ -107,43 +110,46 @@ public class InitializeDatabase {
                 "A sack of 50 gold pieces",
                 "Standard weapon for soldiers",
                 "A greatsword that can be used with either one or both hands",
-                "A small axe used in combat"
+                "A small axe used in combat",
+                "A basic bludgeoning weapon",
+                "A very long spear with used commonly in battle",
+                "A basic spell that hurls a ball of Fire at a target"
         };
         int[] effects = {
-                1, 0, 0, 1, 1, 2
+                1, 0, 0, 1, 1, 2, 3, 4, 5
         };
         int[] effectRatings = {
-                20, 0, 0, 25, 30, 25
+                20, 0, 0, 25, 30, 25, 25, 35, 30
         };
         int[] strengthReqs = {
-                5, 0, 0, 10, 15, 10
+                5, 0, 0, 10, 15, 10, 10, 10, 0
         };
         float[] strengthScales = {
-                1.0f, 0.0f, 0.0f, 2.0f, 2.0f, 2.0f
+                1.0f, 0.0f, 0.0f, 2.0f, 2.0f, 2.0f, 3.0f, 4.0f, 0.0f
         };
         int[] dexterityReqs = {
-                10, 0, 0, 5, 7, 5
+                10, 0, 0, 5, 7, 5, 0, 5, 0
         };
         float[] dexterityScales = {
-                2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f
+                2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f
         };
         int[] powerReqs = {
-                0, 0, 0, 0, 0, 0
+                0, 0, 0, 0, 0, 0, 0, 0, 5
         };
         float[] powerScales = {
-                0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f
+                0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 3.0f
         };
         int[] willReqs = {
-                0, 0, 0, 0, 0, 0
+                0, 0, 0, 0, 0, 0, 0, 0, 5
         };
         float[] willScales = {
-                0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f
+                0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f
         };
         float[] weights = {
-                2.0f, 0.0f, 0.0f, 3.0f, 4.0f, 3.0f
+                2.0f, 0.0f, 0.0f, 3.0f, 4.0f, 3.0f, 4.0f, 6.0f, 0.0f
         };
         int[] values = {
-                30, 20, 50, 45, 55, 45
+                30, 20, 50, 45, 55, 45, 45, 60, 80
         };
         System.out.println("STEP 1");
         var statement = conn.createStatement();

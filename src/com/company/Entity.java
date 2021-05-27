@@ -167,7 +167,7 @@ public class Entity implements java.io.Serializable {
     }
 
     public String applyEffect(int effect, int value, String attacker, String target) {
-        if (effect > 0 && effect < 4) {
+        if (effect > 0 && effect < 6) {
             isHostile = true;
             int dmg = value;
             //System.out.println("before: " + hp);
