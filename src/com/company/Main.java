@@ -33,8 +33,19 @@ public class Main {
         String toPrint = "";
         while (!j.equals("exit")) {
             System.out.println(mainState.GetRoomDescription());
+            System.out.println("At any time you can type [help] for a command reference.");
             j = input.nextLine();
-
+            if (j.equals("help")) {
+                System.out.println("Command reference:");
+                System.out.println("grab/pickup <item_name>: use this to add items to your inventory");
+                System.out.println("drop <item_name>: use this to drop items");
+                System.out.println("go/enter <path>: use this to take a path");
+                System.out.println("show inventory: show is optional, but shows items you have on you");
+                System.out.println("use/activate <inventory_item> on <target>: apply the effect of an item onto an entity");
+                System.out.println("save: record your current save");
+                System.out.println("exit: close the game out");
+                continue;
+            }
             toPrint = mainState.ReceiveInput(j);
 
             System.out.println(toPrint);

@@ -3,6 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="925ee688-6a06-4fa7-ba75-687fb77d3fd6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avelaror.db" beforeDir="false" afterPath="$PROJECT_DIR$/avelaror.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/itemlist.db" beforeDir="false" afterPath="$PROJECT_DIR$/itemlist.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/InitializeDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/InitializeDatabase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,6 +195,11 @@
           <properties class="java.util.ConcurrentModificationException" package="java.util" />
           <option name="timeStamp" value="3" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/company/InitializeDatabase.java</url>
+          <line>149</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
