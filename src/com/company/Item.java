@@ -1,20 +1,20 @@
 package com.company;
 
 public class Item implements java.io.Serializable {
-    public String name;
-    public String flavorText;
-    public int effect;
-    public int effectRating;
-    public int strengthRequirement;
-    public float strengthScaling;
-    public int dexterityRequirement;
-    public float dexterityScaling;
-    public int powerRequirement;
-    public float powerScaling;
-    public int willRequirement;
-    public float willScaling;
-    public float weight;
-    public int value;
+    String name;
+    String flavorText;
+    int effect;
+    int effectRating;
+    int strengthRequirement;
+    float strengthScaling;
+    int dexterityRequirement;
+    float dexterityScaling;
+    int powerRequirement;
+    float powerScaling;
+    int willRequirement;
+    float willScaling;
+    float weight;
+    int value;
 
     public String getName() {
         return name;
