@@ -10,6 +10,8 @@ public class Main {
 
 
     public static void main(String[] args) throws SQLException {
+        System.out.println("Welcome to Stardust Kingdoms, The Text Adventure!");
+        System.out.println("-------------------------------------------------");
         System.out.println("Please enter the .db file you want to load (the game will crash if you mistype)");
         String zeta = input.nextLine();
         State mainState = new State(zeta);

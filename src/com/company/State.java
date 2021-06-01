@@ -46,7 +46,12 @@ public class State {
         String items = "";
         int i;
         for (i = 0; i < player.inventory.size(); i++) {
-            items = items + (i+1) + ": " + player.inventory.get(i).getName() + "\n";
+            items = items + (i+1) + ": " + player.inventory.get(i).getName() +
+                    "\n==>Effect Rating: " + player.inventory.get(i).getEffectRating() +
+                    "\n==>Strength Scaling/Requirement" +
+                    "" +
+                    "" +
+                    "";
         }
         return items;
     }
