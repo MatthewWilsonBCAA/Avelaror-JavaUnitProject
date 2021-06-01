@@ -291,7 +291,7 @@ public class WorldCreator {
         Connection conn = connect("itemlist");
         var items = new ArrayList<Item>();
         var statement = conn.createStatement();
-        var results = statement.executeQuery("SELECT * FROM items");
+        var results = statement.executeQuery("SELECT * FROM items;");
         while (results.next()) {
             Item temp = new Item();
             temp.setName(results.getString("name"));
