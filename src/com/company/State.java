@@ -46,12 +46,16 @@ public class State {
         String items = "";
         int i;
         for (i = 0; i < player.inventory.size(); i++) {
-            items = items + (i+1) + ": " + player.inventory.get(i).getName() +
-                    "\n==>Effect Rating: " + player.inventory.get(i).getEffectRating() +
-                    "\n==>Strength Scaling/Requirement" +
-                    "" +
-                    "" +
-                    "";
+            Item temp = player.inventory.get(i);
+            items = items + (i+1) + ": " + temp.getName() +
+                    "\n>Effect Rating: " + temp.getEffectRating() +
+                    "\n>Strength Scaling/Requirement: " + temp.getStrengthScaling() + "/ " + temp.getStrengthRequirement() +
+                    "\n>Dexterity Scaling/Requirement: " + temp.getDexterityScaling() + "/ " + temp.getDexterityRequirement() +
+                    "\n>Power Scaling/Requirement: " + temp.getPowerScaling() + "/ " + temp.getPowerRequirement() +
+                    "\n>Will Scaling/Requirement: " + temp.getWillScaling() + "/ " + temp.getWillRequirement() +
+                    "\n>Weight: " + temp.getWeight() +
+                    "\n>Value: " + temp.getValue() +
+                    "\n";
         }
         return items;
     }
@@ -87,10 +91,10 @@ public class State {
         int powBonus = 0;
         int wilBonus = 0;
         strBonus = (int) ( (str - sReq) * sSc);
-        dexBonus = (int) ( (str - dReq ) * dSc);
-        powBonus = (int) ( (str - pReq) * pSc);
-        wilBonus = (int) ( (str - wReq) * wSc);
-        return strBonus + dexBonus + powBonus + wilBonus;
+        dexBonus = (int) ( (dex - dReq ) * dSc);
+        powBonus = (int) ( (pow - pReq) * pSc);
+        wilBonus = (int) ( (wil - wReq) * wSc);
+        return (strBonus + dexBonus + powBonus + wilBonus);
     }
     public String ApplyEffect(String argOne, String argTwo) {
         int itemEffect = 0;
@@ -222,7 +226,7 @@ public class State {
         Connection conn = connect("itemlist");
         var items = new ArrayList<Item>();
         var statement = conn.createStatement();
-        var results = statement.executeQuery("SELECT * FROM items");
+        var results = statement.executeQuery("SELECT * FROM items;");
         while (results.next()) {
             Item temp = new Item();
             temp.setName(results.getString("name"));
@@ -351,10 +355,8 @@ public class State {
             var regQuery = conn.createStatement();
             var results = regQuery.executeQuery("SELECT * FROM player;");
 
-            boolean zeta = false;
             while (results.next()) {
                 player.setName(results.getString("name"));
-
                 player.setVitality(results.getInt("vitality"));
                 player.SetHP(results.getInt("health"));
                 player.setStrength(results.getInt("strength"));

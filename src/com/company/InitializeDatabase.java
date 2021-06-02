@@ -11,44 +11,44 @@ public class InitializeDatabase {
     static Connection conn;
     public static void setEntities() throws SQLException {
         String[] names = {
-            "Rat", "Wolf", "Draugr"
+            "Rat", "Wolf", "Draugr", "Golem"
         };
         int[] hps = {
-                25, 50, 115
+                25, 50, 115, 10000
         };
         int[] vits = {
-                2, 3, 5
+                2, 3, 5, 1000000
         };
         int[] strs = {
-                1, 1, 3
+                1, 1, 3, 1000000
         };
         int[] dexs = {
-                1, 1, 3
+                1, 1, 3, 1000000
         };
         int[] pows = {
-                1, 1, 3
+                1, 1, 3, 1000000
         };
         int[] wils = {
-                1, 1, 3
+                1, 1, 3, 1000000
         };
         int[] agls = {
-                1, 1, 2
+                1, 1, 2, 1000000
         };
         String[] defaults = {
-                "*chattering*", "*growling*", "*groans*"
+                "*chattering*", "*growling*", "*groans*", "Welcome. I will buy any item you wish to sell"
         };
         String[] agros = {
-                "*squealing*", "*barks and growls*", "*inhuman growls*"
+                "*squealing*", "*barks and growls*", "*inhuman growls*", "Now, you will DIE!"
         };
         int[] pas = {
-                1, 1, 2
+                1, 1, 2, 3
         };
         int[] pvs = {
-                5, 10, 12
+                5, 10, 12, 300
         };
         //0, no. 1, yes.
         int[] aggros = {
-                1, 1, 1
+                1, 1, 1, 0
         };
         var statement = conn.createStatement();
         statement.execute("DROP TABLE IF EXISTS entities;");
