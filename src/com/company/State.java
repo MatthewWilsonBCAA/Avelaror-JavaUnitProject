@@ -14,7 +14,7 @@ public class State {
     public State(String db) {
         database = db;
     }
-    public void SetRooms(ArrayList<Room> ar) {
+    public void setRooms(ArrayList<Room> ar) {
         allRooms = ar;
     }
     public String GetRoomDescription() {
@@ -126,11 +126,11 @@ public class State {
         }
         if (itemEffect > 0) {
             Room cur = allRooms.get(roomID);
-            for (i = 0; i < cur.GetEntities().size(); i++) {
-                if (cur.GetEntities().get(i).getName().equals(argTwo)) {
-                    result = cur.GetEntities().get(i).applyEffect(itemEffect, itemValue, "You", cur.GetEntities().get(i).getName());
+            for (i = 0; i < cur.getEntities().size(); i++) {
+                if (cur.getEntities().get(i).getName().equals(argTwo)) {
+                    result = cur.getEntities().get(i).applyEffect(itemEffect, itemValue, "You", cur.getEntities().get(i).getName());
                     if (result.equals("DEFEAT")) {
-                        cur.GetEntities().remove(i);
+                        cur.getEntities().remove(i);
                         return "You killed the target!";
                     }
                     return result;
@@ -142,9 +142,9 @@ public class State {
     String enemyCheck() {
         String toSend = "";
         Room cur = allRooms.get(roomID);
-        for (Entity ent : cur.GetEntities()) {
+        for (Entity ent : cur.getEntities()) {
             if (ent.checkAggro()) {
-                toSend += player.applyEffect(ent.GetPrimaryAttack(), ent.GetPrimaryValue(), ent.getName(), "you") + "\n";
+                toSend += player.applyEffect(ent.getPrimaryAttack(), ent.getPrimaryValue(), ent.getName(), "you") + "\n";
             }
             else if (ent.getBecomeHostile() == 1 && !ent.checkAggro()) {
                 ent.applyEffect(-1, 0, "", "");
@@ -167,7 +167,7 @@ public class State {
             int temp = allRooms.get(roomID).CheckDirection(args[1]);
             if (temp != -1) {
                 roomID = temp;
-                toReturn = "You go into " + allRooms.get(roomID).GetTitle() + "\n";
+                toReturn = "You go into " + allRooms.get(roomID).getTitle() + "\n";
             }
         }
         if ((args[0].equals("pickup") || args[0].equals("grab")) && args.length > 1) {
@@ -256,8 +256,8 @@ public class State {
         var results = statement.executeQuery("SELECT * FROM rooms");
         while (results.next()) {
             Room temp = new Room();
-            temp.SetTitle(results.getString("title"));
-            temp.SetBaseDescription(results.getString("description"));
+            temp.setTitle(results.getString("title"));
+            temp.setBaseDescription(results.getString("description"));
 
             String entRef = results.getString("entities");
             String itemRef = results.getString("items");
@@ -282,7 +282,7 @@ public class State {
                     }
 
                 }
-                temp.SetEntities(zF);
+                temp.setEntities(zF);
             }
 
             if (itemRef != null) {
@@ -294,12 +294,12 @@ public class State {
                     }
 
                 }
-                temp.SetItems(zF);
+                temp.setItems(zF);
             }
 
             if (roomRef != null) {
-                temp.SetRooms(Arrays.stream(roomRef.split("\\.")).mapToInt(Integer::parseInt).toArray());
-                temp.SetRoomCommands(comRef.split("\\.", 0));
+                temp.setRooms(Arrays.stream(roomRef.split("\\.")).mapToInt(Integer::parseInt).toArray());
+                temp.setRoomCommands(comRef.split("\\.", 0));
             }
 
 
@@ -317,14 +317,14 @@ public class State {
             Entity temp = new Entity();
             temp.setName(results.getString("name"));
             temp.setVitality(results.getInt("vitality"));
-            temp.SetHP(results.getInt("hp"));
+            temp.setHP(results.getInt("hp"));
             temp.setStrength(results.getInt("strength"));
             temp.setDexterity(results.getInt("dexterity"));
             temp.setPower(results.getInt("power"));
             temp.setWill(results.getInt("will"));
             temp.setAgility(results.getInt("agility"));
-            temp.SetDefaultLine(results.getString("default_line"));
-            temp.SetAggroLine(results.getString("agro_line"));
+            temp.setOpeningLine(results.getString("default_line"));
+            temp.setAggroLine(results.getString("agro_line"));
             temp.setPrimaryAttack(results.getInt("primary_attack"));
             temp.setPrimaryValue(results.getInt("primary_value"));
             temp.setBecomeHostile(results.getInt("hostile"));
@@ -358,7 +358,7 @@ public class State {
             while (results.next()) {
                 player.setName(results.getString("name"));
                 player.setVitality(results.getInt("vitality"));
-                player.SetHP(results.getInt("health"));
+                player.setHP(results.getInt("health"));
                 player.setStrength(results.getInt("strength"));
                 player.setDexterity(results.getInt("dexterity"));
                 player.setPower(results.getInt("power"));
@@ -411,7 +411,7 @@ public class State {
             player.setName("player");
 
             player.setVitality(5);
-            player.SetHP(50);
+            player.setHP(50);
             player.setStrength(5);
             player.setDexterity(5);
             player.setPower(5);

@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class WorldCreator {
@@ -22,7 +21,6 @@ public class WorldCreator {
             databaseChoice = in.nextLine();
         }
         Connection conn = connect(databaseChoice);
-        var rooms = new ArrayList<Room>();
         var defineTable = conn.createStatement();
         defineTable.execute("CREATE TABLE IF NOT EXISTS rooms (" +
                 "title TEXT," +
@@ -35,10 +33,9 @@ public class WorldCreator {
         var statement = conn.createStatement();
         var results = statement.executeQuery("SELECT * FROM rooms");
         while (results.next()) {
-            int i;
             Room temp = new Room();
-            temp.SetTitle(results.getString("title"));
-            temp.SetBaseDescription(results.getString("description"));
+            temp.setTitle(results.getString("title"));
+            temp.setBaseDescription(results.getString("description"));
 
             String entRef = results.getString("entities");
             String itemRef = results.getString("items");
@@ -66,8 +63,8 @@ public class WorldCreator {
                 int j = 0;
                 System.out.println("Current rooms:");
                 for (Room i : roomList) {
-                    System.out.println(j + ": " + i.GetTitle());
-                    System.out.println(i.GetBaseDescription());
+                    System.out.println(j + ": " + i.getTitle());
+                    System.out.println(i.getBaseDescription());
                     System.out.println("NPC ID list: " + i.getEntitiesRef());
                     System.out.println("Item ID list: " + i.getItemsRef());
                     System.out.println("Linked Rooms list: " + i.getRoomsRef());
@@ -105,10 +102,10 @@ public class WorldCreator {
                 String tz;
                 System.out.println("Enter the name of the room.");
                 tz = in.nextLine();
-                temp.SetTitle(tz);
+                temp.setTitle(tz);
                 System.out.println("Provide a description for this room.");
                 tz = in.nextLine();
-                temp.SetBaseDescription(tz);
+                temp.setBaseDescription(tz);
                 tz = "-";
                 int d;
                 String entsRef = "";
@@ -171,26 +168,6 @@ public class WorldCreator {
                 }
 
             }
-//            if (choice.equals("edit")) {
-//                int d;
-//                while (true) {
-//                    System.out.println("Enter the numeric ID of the room you want to edit.");
-//                    choice = in.nextLine();
-//                    try {
-//                        d = Integer.parseInt(choice);
-//                    } catch (NumberFormatException nfe) {
-//                        continue;
-//                    }
-//                    break;
-//                }
-//                if (d > -1 && d < roomList.size()) {
-//
-//                }
-//                else {
-//
-//                }
-//
-//            }
             if (choice.equals("link")) {
                 int d = -2;
                 int z = -2;
@@ -221,8 +198,8 @@ public class WorldCreator {
                 }
                 String com;
                 while (true) {
-                    System.out.println("Enter a one-word command for the transition from " + roomList.get(d).GetTitle() +
-                            " to " + roomList.get(z).GetTitle());
+                    System.out.println("Enter a one-word command for the transition from " + roomList.get(d).getTitle() +
+                            " to " + roomList.get(z).getTitle());
                     com = in.nextLine();
                     for (char reg : com.toCharArray()) {
                         if (Character.isWhitespace(reg)) {
@@ -261,8 +238,8 @@ public class WorldCreator {
                     String query = " INSERT INTO rooms"
                             + " VALUES (?, ?, ?, ?, ?, ?)";
                     PreparedStatement preparedStmt = conn.prepareStatement(query);
-                    preparedStmt.setString(1, i.GetTitle());
-                    preparedStmt.setString(2, i.GetBaseDescription());
+                    preparedStmt.setString(1, i.getTitle());
+                    preparedStmt.setString(2, i.getBaseDescription());
                     preparedStmt.setString(3, i.getEntitiesRef());
                     preparedStmt.setString(4, i.getItemsRef());
                     preparedStmt.setString(5, i.getRoomsRef());
@@ -320,14 +297,14 @@ public class WorldCreator {
         while (results.next()) {
             Entity temp = new Entity();
             temp.setName(results.getString("name"));
-            temp.SetHP(results.getInt("hp"));
+            temp.setHP(results.getInt("hp"));
             temp.setStrength(results.getInt("strength"));
             temp.setDexterity(results.getInt("dexterity"));
             temp.setPower(results.getInt("power"));
             temp.setWill(results.getInt("will"));
             temp.setAgility(results.getInt("agility"));
-            temp.SetDefaultLine(results.getString("default_line"));
-            temp.SetAggroLine(results.getString("agro_line"));
+            temp.setOpeningLine(results.getString("default_line"));
+            temp.setAggroLine(results.getString("agro_line"));
             temp.setPrimaryAttack(results.getInt("primary_attack"));
             temp.setPrimaryValue(results.getInt("primary_value"));
             ents.add(temp);

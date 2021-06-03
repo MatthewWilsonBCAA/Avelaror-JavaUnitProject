@@ -1,90 +1,49 @@
 package com.company;
-import java.util.ArrayList;
-import java.util.Arrays;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.ArrayList;
+
+@Getter
+@Setter
 public class Room implements java.io.Serializable {
     //Ref variables are used in world generation only
     String title;
     String baseDescription;
-    ArrayList<Entity> entities = new ArrayList<Entity>();
+    ArrayList<Entity> entities = new ArrayList<>();
     String entitiesRef;
-    ArrayList<Item> items = new ArrayList<Item>();
+    ArrayList<Item> items = new ArrayList<>();
     String itemsRef;
     //these are going to be parallel lists
     int[] rooms;
 
-
-    public String getItemsRef() {
-        return itemsRef;
-    }
-
-    public void setItemsRef(String itemsRef) {
-        this.itemsRef = itemsRef;
-    }
-
-    public String getRoomsRef() {
-        return roomsRef;
-    }
-
-    public void setRoomsRef(String roomsRef) {
-        this.roomsRef = roomsRef;
-    }
-
-    public String getRoomCommandsRef() {
-        return roomCommandsRef;
-    }
-
-    public void setRoomCommandsRef(String roomCommandsRef) {
-        this.roomCommandsRef = roomCommandsRef;
-    }
-
-    public String getEntitiesRef() {
-        return entitiesRef;
-    }
-
-    public void setEntitiesRef(String entitiesRef) {
-        this.entitiesRef = entitiesRef;
-    }
-
     String roomsRef;
     String[] roomCommands;
     String roomCommandsRef;
-    public void SetTitle (String t) {
-        title = t;
-    }
-    public String GetTitle() {
-        return title;
-    }
-    public void SetBaseDescription(String d) {
-        baseDescription = d;
-    }
-    public String GetBaseDescription() {
-        return baseDescription;
-    }
-    public void SetEntities(ArrayList<Entity> e) {
+    public void setEntities(ArrayList<Entity> e) {
         if (e != null) {
             for (Entity reg : e) {
                 Entity temp = new Entity();
                 temp.setName(reg.getName());
                 temp.setInventory(reg.getInventory());
-                temp.SetHP(reg.getHp());
+                temp.setHP(reg.getHp());
                 temp.setVitality(reg.getVitality());
                 temp.setStrength(reg.getStrength());
                 temp.setDexterity(reg.getDexterity());
                 temp.setPower(reg.getPower());
                 temp.setWill(reg.getWill());
                 temp.setAgility(reg.getAgility());
-                temp.SetDefaultLine(reg.getOpeningLine());
-                temp.SetAggroLine(reg.getAggroLine());
-                temp.SetPrimaryAttack(reg.GetPrimaryAttack());
-                temp.SetPrimaryValue(reg.GetPrimaryValue());
+                temp.setOpeningLine(reg.getOpeningLine());
+                temp.setAggroLine(reg.getAggroLine());
+                temp.setPrimaryAttack(reg.getPrimaryAttack());
+                temp.setPrimaryValue(reg.getPrimaryValue());
                 temp.setBecomeHostile(reg.getBecomeHostile());
                 entities.add(temp);
 
             }
         }
     }
-    public void SetItems(ArrayList<Item> i) {
+    public void setItems(ArrayList<Item> i) {
         for (Item rex : i) {
             Item temp = new Item();
             temp.setName(rex.getName());
@@ -104,28 +63,7 @@ public class Room implements java.io.Serializable {
             items.add(temp);
         }
     }
-    public ArrayList<Entity> GetEntities() {
-        return entities;
-    }
-    public ArrayList<Item> GetItems() {
-        return items;
-    }
 
-    public int[] GetRooms() {
-        return rooms;
-    }
-
-    public void SetRooms(int[] rooms) {
-        this.rooms = rooms;
-    }
-
-    public String[] GetRoomCommands() {
-        return roomCommands;
-    }
-
-    public void SetRoomCommands(String[] roomCommands) {
-        this.roomCommands = roomCommands;
-    }
 
     public Room () {
 

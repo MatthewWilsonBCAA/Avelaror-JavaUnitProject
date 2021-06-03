@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 public class Main {
     public static Scanner input = new Scanner(System.in);
-    public static ArrayList<Room> rooms = new ArrayList<Room>();
     static ArrayList<Entity> entityList = new ArrayList<>();
     static ArrayList<Item> itemList;
 
@@ -29,7 +28,7 @@ public class Main {
         itemList = mainState.getItems();
         entityList = mainState.getEntities();
         mainState.setPlayer(isLoading);
-        mainState.SetRooms(mainState.getRooms(itemList, entityList));
+        mainState.setRooms(mainState.getRooms(itemList, entityList));
 
         String j = "bean";
         String toPrint = "";
