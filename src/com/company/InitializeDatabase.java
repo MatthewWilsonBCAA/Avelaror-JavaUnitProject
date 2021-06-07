@@ -203,14 +203,14 @@ public class InitializeDatabase {
         while (results.next()) {
             Entity temp = new Entity();
             temp.setName(results.getString("name"));
-            temp.SetHP(results.getInt("hp"));
+            temp.setHP(results.getInt("hp"));
             temp.setStrength(results.getInt("strength"));
             temp.setDexterity(results.getInt("dexterity"));
             temp.setPower(results.getInt("power"));
             temp.setWill(results.getInt("will"));
             temp.setAgility(results.getInt("agility"));
-            temp.SetDefaultLine(results.getString("default_line"));
-            temp.SetAggroLine(results.getString("agro_line"));
+            temp.setOpeningLine(results.getString("default_line"));
+            temp.setAggroLine(results.getString("agro_line"));
             temp.setPrimaryAttack(results.getInt("primary_attack"));
             temp.setPrimaryValue(results.getInt("primary_value"));
             ents.add(temp);
